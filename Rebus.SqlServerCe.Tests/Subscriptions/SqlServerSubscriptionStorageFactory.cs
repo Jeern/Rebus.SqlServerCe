@@ -1,9 +1,9 @@
 ﻿using Rebus.Logging;
-using Rebus.SqlServer.Subscriptions;
+using Rebus.SqlServerCe.Subscriptions;
 using Rebus.Subscriptions;
 using Rebus.Tests.Contracts.Subscriptions;
 
-namespace Rebus.SqlServer.Tests.Subscriptions
+namespace Rebus.SqlServerCe.Tests.Subscriptions
 {
     public class SqlServerSubscriptionStorageFactory : ISubscriptionStorageFactory
     {

@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Rebus.DataBus;
 using Rebus.Tests.Contracts;
 
-namespace Rebus.SqlServer.Tests.DataBus
+namespace Rebus.SqlServerCe.Tests.DataBus
 {
     [TestFixture]
     public class TestSqlServerDataBusLazyRead : FixtureBase

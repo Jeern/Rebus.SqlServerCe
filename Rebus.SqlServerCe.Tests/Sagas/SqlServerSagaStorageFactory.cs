@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using Rebus.Logging;
 using Rebus.Sagas;
-using Rebus.SqlServer.Sagas;
+using Rebus.SqlServerCe.Sagas;
 using Rebus.Tests.Contracts.Sagas;
 
-namespace Rebus.SqlServer.Tests.Sagas
+namespace Rebus.SqlServerCe.Tests.Sagas
 {
     [TestFixture, Category(Categories.SqlServer)]
     public class SqlServerSagaStorageBasicLoadAndSaveAndFindOperations : BasicLoadAndSaveAndFindOperations<SqlServerSagaStorageFactory> { }

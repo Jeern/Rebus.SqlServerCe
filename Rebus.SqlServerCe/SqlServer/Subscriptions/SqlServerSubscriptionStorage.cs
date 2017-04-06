@@ -8,7 +8,7 @@ using Rebus.Exceptions;
 using Rebus.Logging;
 using Rebus.Subscriptions;
 
-namespace Rebus.SqlServer.Subscriptions
+namespace Rebus.SqlServerCe.Subscriptions
 {
     /// <summary>
     /// Implementation of <see cref="ISubscriptionStorage"/> that persists subscriptions in a table in SQL Server

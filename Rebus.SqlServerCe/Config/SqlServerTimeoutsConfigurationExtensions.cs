@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Rebus.Logging;
-using Rebus.SqlServer;
-using Rebus.SqlServer.Timeouts;
+using Rebus.SqlServerCe;
+using Rebus.SqlServerCe.Timeouts;
 using Rebus.Timeouts;
 
 namespace Rebus.Config

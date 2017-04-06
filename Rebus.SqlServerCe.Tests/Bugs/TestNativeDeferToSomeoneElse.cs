@@ -10,13 +10,13 @@ using Rebus.Messages;
 using Rebus.Pipeline;
 using Rebus.Routing;
 using Rebus.Routing.TypeBased;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Extensions;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer.Tests.Bugs
+namespace Rebus.SqlServerCe.Tests.Bugs
 {
     [TestFixture]
     public class TestNativeDeferToSomeoneElse : FixtureBase

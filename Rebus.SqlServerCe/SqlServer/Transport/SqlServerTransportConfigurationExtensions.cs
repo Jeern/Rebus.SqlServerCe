@@ -8,7 +8,7 @@ using Rebus.Threading;
 using Rebus.Timeouts;
 using Rebus.Transport;
 
-namespace Rebus.SqlServer.Transport
+namespace Rebus.SqlServerCe.Transport
 {
     /// <summary>
     /// Configuration extensions for the SQL transport

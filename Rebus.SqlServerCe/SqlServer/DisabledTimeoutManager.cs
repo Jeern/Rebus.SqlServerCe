@@ -7,7 +7,7 @@ using Rebus.Timeouts;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     class DisabledTimeoutManager : ITimeoutManager
     {

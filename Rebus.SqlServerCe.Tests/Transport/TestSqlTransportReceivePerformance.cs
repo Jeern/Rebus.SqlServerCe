@@ -6,13 +6,13 @@ using NUnit.Framework;
 using Rebus.Activation;
 using Rebus.Config;
 using Rebus.Logging;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Utilities;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer.Tests.Transport
+namespace Rebus.SqlServerCe.Tests.Transport
 {
     [TestFixture, Category(Categories.SqlServer)]
     public class TestSqlTransportReceivePerformance : FixtureBase

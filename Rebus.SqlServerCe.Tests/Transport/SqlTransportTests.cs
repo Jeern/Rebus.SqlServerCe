@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Rebus.Extensions;
 using Rebus.Logging;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Transports;
 using Rebus.Threading.TaskParallelLibrary;
 using Rebus.Transport;
 
-namespace Rebus.SqlServer.Tests.Transport
+namespace Rebus.SqlServerCe.Tests.Transport
 {
     [TestFixture, Category(Categories.SqlServer)]
     public class SqlServerTransportBasicSendReceive : BasicSendReceive<SqlTransportFactory> { }

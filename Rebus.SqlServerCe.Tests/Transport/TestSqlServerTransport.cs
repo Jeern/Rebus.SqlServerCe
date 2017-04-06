@@ -8,12 +8,12 @@ using NUnit.Framework;
 using Rebus.Extensions;
 using Rebus.Logging;
 using Rebus.Messages;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Threading.TaskParallelLibrary;
 using Rebus.Transport;
 
-namespace Rebus.SqlServer.Tests.Transport
+namespace Rebus.SqlServerCe.Tests.Transport
 {
     [TestFixture, Category(Categories.SqlServer)]
     public class TestSqlServerTransport : FixtureBase

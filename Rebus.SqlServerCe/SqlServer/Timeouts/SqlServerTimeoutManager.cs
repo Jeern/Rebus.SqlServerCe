@@ -8,7 +8,7 @@ using Rebus.Serialization;
 using Rebus.Time;
 using Rebus.Timeouts;
 
-namespace Rebus.SqlServer.Timeouts
+namespace Rebus.SqlServerCe.Timeouts
 {
     /// <summary>
     /// Implementation of <see cref="ITimeoutManager"/> that uses SQL Server to store messages until it's time to deliver them.

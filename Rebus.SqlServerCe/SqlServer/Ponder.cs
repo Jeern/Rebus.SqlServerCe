@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     class Reflect
     {

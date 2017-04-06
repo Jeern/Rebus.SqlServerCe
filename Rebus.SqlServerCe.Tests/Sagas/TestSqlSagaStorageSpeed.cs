@@ -13,7 +13,7 @@ using Rebus.Transport.InMem;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer.Tests.Sagas
+namespace Rebus.SqlServerCe.Tests.Sagas
 {
     [TestFixture]
     public class TestSqlSagaStorageSpeed : FixtureBase

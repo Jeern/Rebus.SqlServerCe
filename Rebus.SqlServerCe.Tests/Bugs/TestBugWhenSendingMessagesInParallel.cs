@@ -7,13 +7,13 @@ using Rebus.Activation;
 using Rebus.Bus;
 using Rebus.Config;
 using Rebus.Logging;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Extensions;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer.Tests.Bugs
+namespace Rebus.SqlServerCe.Tests.Bugs
 {
     [TestFixture]
     public class TestBugWhenSendingMessagesInParallel : FixtureBase

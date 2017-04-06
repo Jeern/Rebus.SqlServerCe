@@ -1,9 +1,9 @@
 ﻿using Rebus.DataBus;
 using Rebus.Logging;
-using Rebus.SqlServer.DataBus;
+using Rebus.SqlServerCe.DataBus;
 using Rebus.Tests.Contracts.DataBus;
 
-namespace Rebus.SqlServer.Tests.DataBus
+namespace Rebus.SqlServerCe.Tests.DataBus
 {
     public class SqlServerDataBusStorageFactory : IDataBusStorageFactory
     {

@@ -6,13 +6,13 @@ using Rebus.Activation;
 using Rebus.Bus;
 using Rebus.Config;
 using Rebus.Messages;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Extensions;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer.Tests.Integration
+namespace Rebus.SqlServerCe.Tests.Integration
 {
     [TestFixture, Category(Categories.SqlServer)]
     public class NativeDeferTest : FixtureBase

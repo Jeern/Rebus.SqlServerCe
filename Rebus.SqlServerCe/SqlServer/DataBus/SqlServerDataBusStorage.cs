@@ -13,7 +13,7 @@ using Rebus.Logging;
 using Rebus.Serialization;
 using Rebus.Time;
 
-namespace Rebus.SqlServer.DataBus
+namespace Rebus.SqlServerCe.DataBus
 {
     /// <summary>
     /// Implementation of <see cref="IDataBusStorage"/> that uses SQL Server to store data

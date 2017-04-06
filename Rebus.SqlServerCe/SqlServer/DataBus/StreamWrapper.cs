@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Rebus.SqlServer.DataBus
+namespace Rebus.SqlServerCe.DataBus
 {
     /// <summary>
     /// Wraps a stream and an action, calling the action when the stream is disposed

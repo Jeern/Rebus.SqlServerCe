@@ -8,7 +8,7 @@ using IsolationLevel = System.Data.IsolationLevel;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     /// <summary>
     /// Implementation of <see cref="IDbConnectionProvider"/> that ensures that MARS (multiple active result sets) is enabled on the

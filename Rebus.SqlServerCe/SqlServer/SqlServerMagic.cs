@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Dynamic;
 using System.Linq;
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     /// <summary>
     /// Wraps some nice extension methods for <see cref="SqlConnection"/> that makes it easy e.g. to query the schema

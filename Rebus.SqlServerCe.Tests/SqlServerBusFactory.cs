@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Rebus.Activation;
 using Rebus.Bus;
 using Rebus.Config;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Transports;
 
-namespace Rebus.SqlServer.Tests
+namespace Rebus.SqlServerCe.Tests
 {
     public class SqlServerBusFactory : IBusFactory
     {

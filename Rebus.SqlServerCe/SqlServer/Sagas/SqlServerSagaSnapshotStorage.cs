@@ -8,7 +8,7 @@ using Rebus.Logging;
 using Rebus.Sagas;
 using Rebus.Serialization;
 
-namespace Rebus.SqlServer.Sagas
+namespace Rebus.SqlServerCe.Sagas
 {
     /// <summary>
     /// Implementation of <see cref="ISagaSnapshotStorage"/> that uses a table in SQL Server to store saga snapshots

@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace Rebus.SqlServer.Tests.Assumptions
+namespace Rebus.SqlServerCe.Tests.Assumptions
 {
     [TestFixture]
     public class TestSpWho

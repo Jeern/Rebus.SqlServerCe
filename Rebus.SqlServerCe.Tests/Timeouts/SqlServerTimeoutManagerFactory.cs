@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using Rebus.Logging;
-using Rebus.SqlServer.Timeouts;
+using Rebus.SqlServerCe.Timeouts;
 using Rebus.Tests.Contracts.Timeouts;
 using Rebus.Timeouts;
 
-namespace Rebus.SqlServer.Tests.Timeouts
+namespace Rebus.SqlServerCe.Tests.Timeouts
 {
     [TestFixture, Category(Categories.SqlServer)]
     public class BasicStoreAndRetrieveOperations : BasicStoreAndRetrieveOperations<SqlServerTimeoutManagerFactory>

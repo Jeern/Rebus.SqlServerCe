@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     /// <summary>
     /// Wrapper of <see cref="SqlConnection"/> that allows for easily changing how transactions are handled, and possibly how <see cref="SqlConnection"/> instances

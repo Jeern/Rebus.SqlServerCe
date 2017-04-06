@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     /// <summary>
     /// Represents a (possibly schema-qualified) table name in SQL Server

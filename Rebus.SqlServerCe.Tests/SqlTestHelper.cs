@@ -5,7 +5,7 @@ using System.Linq;
 using Rebus.Exceptions;
 using Rebus.Tests.Contracts;
 
-namespace Rebus.SqlServer.Tests
+namespace Rebus.SqlServerCe.Tests
 {
     public class SqlTestHelper
     {

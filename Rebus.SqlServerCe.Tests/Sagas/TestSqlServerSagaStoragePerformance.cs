@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Rebus.Logging;
 using Rebus.Sagas;
-using Rebus.SqlServer.Sagas;
+using Rebus.SqlServerCe.Sagas;
 using Rebus.Tests.Contracts;
 
-namespace Rebus.SqlServer.Tests.Sagas
+namespace Rebus.SqlServerCe.Tests.Sagas
 {
     [TestFixture]
     public class TestSqlServerSagaStoragePerformance : FixtureBase

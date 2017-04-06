@@ -16,7 +16,7 @@ using Rebus.Threading;
 using Rebus.Time;
 using Rebus.Transport;
 
-namespace Rebus.SqlServer.Transport
+namespace Rebus.SqlServerCe.Transport
 {
     /// <summary>
     /// Implementation of <see cref="ITransport"/> that uses SQL Server to do its thing

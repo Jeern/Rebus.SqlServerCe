@@ -1,7 +1,7 @@
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     /// <summary>
     /// SQL Server database connection provider that allows for easily changing how the current <see cref="SqlConnection"/> is obtained,

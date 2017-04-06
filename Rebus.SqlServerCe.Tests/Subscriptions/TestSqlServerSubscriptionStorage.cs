@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Rebus.Extensions;
 using Rebus.Logging;
-using Rebus.SqlServer.Subscriptions;
-using Rebus.SqlServer.Tests.Subscriptions.This.Is.Just.An.Incredibly.Long.And.Silly.Namespace.Name.That.Needs.To.Be.Even.Longer.Because.It.Just.Needs.To.Be.Long.OK.But.Soon.It.Must.Be.Long.Enough.To.Exceed.That.Silly.Limit.In.SqlServer;
+using Rebus.SqlServerCe.Subscriptions;
+using Rebus.SqlServerCe.Tests.Subscriptions.This.Is.Just.An.Incredibly.Long.And.Silly.Namespace.Name.That.Needs.To.Be.Even.Longer.Because.It.Just.Needs.To.Be.Long.OK.But.Soon.It.Must.Be.Long.Enough.To.Exceed.That.Silly.Limit.In.SqlServer;
 using Rebus.Tests.Contracts;
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer.Tests.Subscriptions
+namespace Rebus.SqlServerCe.Tests.Subscriptions
 {
     [TestFixture]
     public class TestSqlServerSubscriptionStorage : FixtureBase

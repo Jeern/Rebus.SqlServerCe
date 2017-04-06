@@ -8,11 +8,11 @@ using NUnit.Framework;
 using Rebus.Activation;
 using Rebus.Config;
 using Rebus.Logging;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Threading;
 
-namespace Rebus.SqlServer.Tests.Integration
+namespace Rebus.SqlServerCe.Tests.Integration
 {
     [TestFixture]
     public class TestNumberOfSqlConnections : FixtureBase

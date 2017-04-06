@@ -1,4 +1,4 @@
-﻿namespace Rebus.SqlServer.Tests
+﻿namespace Rebus.SqlServerCe.Tests
 {
     public class Categories
     {

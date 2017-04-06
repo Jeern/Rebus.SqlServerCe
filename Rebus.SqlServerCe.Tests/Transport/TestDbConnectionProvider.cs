@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Rebus.Logging;
 
-namespace Rebus.SqlServer.Tests.Transport
+namespace Rebus.SqlServerCe.Tests.Transport
 {
     [TestFixture, Category(Categories.SqlServer)]
     public class TestDbConnectionProvider

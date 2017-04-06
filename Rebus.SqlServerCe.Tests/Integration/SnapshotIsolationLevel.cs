@@ -6,12 +6,12 @@ using NUnit.Framework;
 using Rebus.Activation;
 using Rebus.Config;
 using Rebus.Logging;
-using Rebus.SqlServer.Transport;
+using Rebus.SqlServerCe.Transport;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Utilities;
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer.Tests.Integration
+namespace Rebus.SqlServerCe.Tests.Integration
 {
     [TestFixture]
     [Ignore("Can't run schema migration with snapshot isolation level")]

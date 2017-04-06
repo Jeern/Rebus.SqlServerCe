@@ -7,11 +7,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Rebus.Logging;
-using Rebus.SqlServer.DataBus;
+using Rebus.SqlServerCe.DataBus;
 using Rebus.Tests.Contracts;
 using Rebus.Tests.Contracts.Extensions;
 
-namespace Rebus.SqlServer.Tests.DataBus
+namespace Rebus.SqlServerCe.Tests.DataBus
 {
     [TestFixture]
     public class TestSqlServerDataBusStorage : FixtureBase

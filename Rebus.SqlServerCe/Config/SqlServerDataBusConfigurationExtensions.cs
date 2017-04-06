@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using Rebus.DataBus;
 using Rebus.Logging;
-using Rebus.SqlServer;
-using Rebus.SqlServer.DataBus;
+using Rebus.SqlServerCe;
+using Rebus.SqlServerCe.DataBus;
 
 namespace Rebus.Config
 {

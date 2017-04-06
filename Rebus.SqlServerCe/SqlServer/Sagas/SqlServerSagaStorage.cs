@@ -11,7 +11,7 @@ using Rebus.Logging;
 using Rebus.Sagas;
 using Rebus.Serialization;
 
-namespace Rebus.SqlServer.Sagas
+namespace Rebus.SqlServerCe.Sagas
 {
     /// <summary>
     /// Implementation of <see cref="ISagaStorage"/> that persists saga data as a Newtonsoft JSON.NET-serialized object to a table in SQL Server.

@@ -6,7 +6,7 @@ using Rebus.Exceptions;
 
 #pragma warning disable 1998
 
-namespace Rebus.SqlServer
+namespace Rebus.SqlServerCe
 {
     /// <summary>
     /// Wrapper of <see cref="SqlConnection"/> that allows for either handling <see cref="SqlTransaction"/> automatically, or for handling it externally
