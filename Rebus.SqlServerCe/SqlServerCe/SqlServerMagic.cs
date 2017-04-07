@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Dynamic;
 using System.Linq;
 
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Wraps some nice extension methods for <see cref="SqlConnection"/> that makes it easy e.g. to query the schema
+    /// Wraps some nice extension methods for <see cref="SqlCeConnection"/> that makes it easy e.g. to query the schema
     /// </summary>
     static class SqlServerCeMagic
     {
@@ -25,7 +26,7 @@ namespace Rebus.SqlServerCe
         /// <summary>
         /// Gets the names of all tables in the current database
         /// </summary>
-        public static List<TableName> GetTableNames(this SqlConnection connection, SqlTransaction transaction = null)
+        public static List<TableName> GetTableNames(this SqlCeConnection connection, SqlCeTransaction transaction = null)
         {
             return GetNamesFrom(connection, transaction, "INFORMATION_SCHEMA.TABLES", new []{ "TABLE_SCHEMA", "TABLE_NAME" })
                 .Select(x => new TableName((string)x.TABLE_SCHEMA, (string)x.TABLE_NAME))
@@ -35,7 +36,7 @@ namespace Rebus.SqlServerCe
         /// <summary>
         /// Gets the names of all indexes in the current database
         /// </summary>
-        public static List<string> GetIndexNames(this SqlConnection connection, SqlTransaction transaction = null)
+        public static List<string> GetIndexNames(this SqlCeConnection connection, SqlCeTransaction transaction = null)
         {
             return GetNamesFrom(connection, transaction, "sys.indexes", new []{ "name" }).Select(x => (string)x.name).ToList();
         }
@@ -43,7 +44,7 @@ namespace Rebus.SqlServerCe
         /// <summary>
         /// Gets the names of all tables in the current database
         /// </summary>
-        public static Dictionary<string, SqlDbType> GetColumns(this SqlConnection connection, string schema, string tableName, SqlTransaction transaction = null)
+        public static Dictionary<string, SqlDbType> GetColumns(this SqlCeConnection connection, string schema, string tableName, SqlCeTransaction transaction = null)
         {
             var results = new Dictionary<string, SqlDbType>();
 
@@ -87,12 +88,12 @@ namespace Rebus.SqlServerCe
         /// <summary>
         /// Gets the names of all databases on the current server
         /// </summary>
-        public static List<string> GetDatabaseNames(this SqlConnection connection, SqlTransaction transaction = null)
+        public static List<string> GetDatabaseNames(this SqlCeConnection connection, SqlCeTransaction transaction = null)
         {
             return GetNamesFrom(connection, transaction, "sys.databases", new []{ "name" }).Select(x => (string)x.name).ToList();
         }
 
-        static List<dynamic> GetNamesFrom(SqlConnection connection, SqlTransaction transaction, string systemTableName, string[] columnNames)
+        static List<dynamic> GetNamesFrom(SqlCeConnection connection, SqlCeTransaction transaction, string systemTableName, string[] columnNames)
         {
             var names = new List<dynamic>();
 

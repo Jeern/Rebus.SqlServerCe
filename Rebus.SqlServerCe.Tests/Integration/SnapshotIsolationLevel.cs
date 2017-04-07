@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -73,7 +74,7 @@ CREATE TABLE [dbo].[Messages](
 
                     t.UseSqlServerCe(async () =>
                     {
-                        var sqlConnection = new SqlConnection(connectionString);
+                        var sqlConnection = new SqlCeConnection(connectionString);
                         await sqlConnection.OpenAsync();
                         var transaction = sqlConnection.BeginTransaction(IsolationLevel.Snapshot);
                         return new DbConnectionWrapper(sqlConnection, transaction, false);

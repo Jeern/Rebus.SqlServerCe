@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -441,7 +442,7 @@ UPDATE {_dataTableName.QualifiedName}
             }
         }
 
-        void SetData(SqlCommand command, string data)
+        void SetData(SqlCeCommand command, string data)
         {
             if (_oldFormatDataTable)
             {
@@ -453,7 +454,7 @@ UPDATE {_dataTableName.QualifiedName}
             }
         }
 
-        string GetData(SqlDataReader reader)
+        string GetData(IDataReader reader)
         {
             if (_oldFormatDataTable)
             {

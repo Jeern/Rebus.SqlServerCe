@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Threading.Tasks;
 
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Wrapper of <see cref="SqlConnection"/> that allows for easily changing how transactions are handled, and possibly how <see cref="SqlConnection"/> instances
+    /// Wrapper of <see cref="SqlCeConnection"/> that allows for easily changing how transactions are handled, and possibly how <see cref="SqlCeConnection"/> instances
     /// are reused by various services
     /// </summary>
     public interface IDbConnection : IDisposable
     {
         /// <summary>
-        /// Creates a ready to used <see cref="SqlCommand"/>
+        /// Creates a ready to used <see cref="SqlCeCommand"/>
         /// </summary>
-        SqlCommand CreateCommand();
+        SqlCeCommand CreateCommand();
 
         /// <summary>
         /// Gets the names of all the tables in the current database for the current schema
@@ -23,7 +24,7 @@ namespace Rebus.SqlServerCe
         IEnumerable<TableName> GetTableNames();
         
         /// <summary>
-        /// Marks that all work has been successfully done and the <see cref="SqlConnection"/> may have its transaction committed or whatever is natural to do at this time
+        /// Marks that all work has been successfully done and the <see cref="SqlCeConnection"/> may have its transaction committed or whatever is natural to do at this time
         /// </summary>
         Task Complete();
 

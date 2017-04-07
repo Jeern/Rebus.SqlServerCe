@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Linq;
 using System.Threading.Tasks;
 using Rebus.Logging;
@@ -67,7 +68,7 @@ namespace Rebus.SqlServerCe
         /// </summary>
         public async Task<IDbConnection> GetConnection()
         {
-            SqlConnection connection = null;
+            SqlCeConnection connection = null;
 
             try
             {
@@ -75,13 +76,13 @@ namespace Rebus.SqlServerCe
 #if NET45
                 using (new System.Transactions.TransactionScope(System.Transactions.TransactionScopeOption.Suppress))
                 {
-                    connection = new SqlConnection(_connectionString);
+                    connection = new SqlCeConnection(_connectionString);
                     
                     // do not use Async here! it would cause the tx scope to be disposed on another thread than the one that created it
                     connection.Open();
                 }
 #else
-                connection = new SqlConnection(_connectionString);
+                connection = new SqlCeConnection(_connectionString);
                 connection.Open();
 #endif
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Linq;
 using Rebus.Exceptions;
 using Rebus.Tests.Contracts;
@@ -41,7 +42,7 @@ namespace Rebus.SqlServerCe.Tests
 
         public static void Execute(string sql)
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlCeConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -74,11 +75,11 @@ namespace Rebus.SqlServerCe.Tests
             });
         }
 
-        static void DropObject(string sqlCommand, Func<SqlConnection, bool> executeCriteria)
+        static void DropObject(string sqlCommand, Func<SqlCeConnection, bool> executeCriteria)
         {
             try
             {
-                using (var connection = new SqlConnection(ConnectionString))
+                using (var connection = new SqlCeConnection(ConnectionString))
                 {
                     connection.Open();
 
@@ -134,7 +135,7 @@ namespace Rebus.SqlServerCe.Tests
 
         public static IEnumerable<IDictionary<string, string>> ExecSpWho()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlCeConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -169,7 +170,7 @@ namespace Rebus.SqlServerCe.Tests
             {
                 var masterConnectionString = GetConnectionStringForDatabase("master");
 
-                using (var connection = new SqlConnection(masterConnectionString))
+                using (var connection = new SqlCeConnection(masterConnectionString))
                 {
                     connection.Open();
 

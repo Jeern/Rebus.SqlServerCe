@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Linq;
 using System.Threading.Tasks;
 using Rebus.Exceptions;
@@ -9,14 +10,14 @@ using Rebus.Exceptions;
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Wrapper of <see cref="SqlConnection"/> that allows for either handling <see cref="SqlTransaction"/> automatically, or for handling it externally
+    /// Wrapper of <see cref="SqlCeConnection"/> that allows for either handling <see cref="SqlCeTransaction"/> automatically, or for handling it externally
     /// </summary>
     public class DbConnectionWrapper : IDbConnection
     {
-        readonly SqlConnection _connection;
+        readonly SqlCeConnection _connection;
         readonly bool _managedExternally;
 
-        SqlTransaction _currentTransaction;
+        SqlCeTransaction _currentTransaction;
         bool _disposed;
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace Rebus.SqlServerCe
         /// should commit/rollback the transaction (depending on whether <see cref="Complete"/> is called before <see cref="Dispose()"/>), or if the transaction
         /// is handled outside of the wrapper
         /// </summary>
-        public DbConnectionWrapper(SqlConnection connection, SqlTransaction currentTransaction, bool managedExternally)
+        public DbConnectionWrapper(SqlCeConnection connection, SqlCeTransaction currentTransaction, bool managedExternally)
         {
             _connection = connection;
             _currentTransaction = currentTransaction;
@@ -32,9 +33,9 @@ namespace Rebus.SqlServerCe
         }
 
         /// <summary>
-        /// Creates a ready to used <see cref="SqlCommand"/>
+        /// Creates a ready to used <see cref="SqlCeCommand"/>
         /// </summary>
-        public SqlCommand CreateCommand()
+        public SqlCeCommand CreateCommand()
         {
             var sqlCommand = _connection.CreateCommand();
             sqlCommand.Transaction = _currentTransaction;
@@ -75,7 +76,7 @@ namespace Rebus.SqlServerCe
         }
 
         /// <summary>
-        /// Marks that all work has been successfully done and the <see cref="SqlConnection"/> may have its transaction committed or whatever is natural to do at this time
+        /// Marks that all work has been successfully done and the <see cref="SqlCeConnection"/> may have its transaction committed or whatever is natural to do at this time
         /// </summary>
         public async Task Complete()
         {

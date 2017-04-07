@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -15,7 +16,7 @@ using Rebus.Threading;
 namespace Rebus.SqlServerCe.Tests.Integration
 {
     [TestFixture]
-    public class TestNumberOfSqlConnections : FixtureBase
+    public class TestNumberOfSqlCeConnections : FixtureBase
     {
         [Test]
         public async Task CountTheConnections()
@@ -75,7 +76,7 @@ namespace Rebus.SqlServerCe.Tests.Integration
                     _activeConnections[id] = new object();
                 }
 
-                public SqlCommand CreateCommand()
+                public SqlCeCommand CreateCommand()
                 {
                     return _innerConnection.CreateCommand();
                 }
