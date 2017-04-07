@@ -50,15 +50,15 @@ namespace Rebus.SqlServerCe.Tests.Bugs
 
             var bus = Configure.With(activator)
                 .Logging(l => l.ColoredConsole(minLevel: LogLevel.Info))
-                .Transport(t => t.UseSqlServer(SqlTestHelper.ConnectionString, _messagesTableName, inputQueueName))
-                .Subscriptions(s => s.StoreInSqlServer(SqlTestHelper.ConnectionString, _subscriptionsTableName, isCentralized: true))
+                .Transport(t => t.UseSqlServerCe(SqlTestHelper.ConnectionString, _messagesTableName, inputQueueName))
+                .Subscriptions(s => s.StoreInSqlServerCe(SqlTestHelper.ConnectionString, _subscriptionsTableName, isCentralized: true))
                 .Start();
 
             return bus;
         }
 
         [Test]
-        [Description("When using the SQL transport, publishing to two subscribers would hit a requirement from SQL Server to have MARS enabled on the connection")]
+        [Description("When using the SQL transport, publishing to two subscribers would hit a requirement from SQL Server Compact to have MARS enabled on the connection")]
         public async Task CheckRealisticScenarioWithSqlAllTheWay()
         {
             await Task.WhenAll(

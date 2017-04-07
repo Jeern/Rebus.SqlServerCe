@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Represents a (possibly schema-qualified) table name in SQL Server
+    /// Represents a (possibly schema-qualified) table name in SQL Server Compact
     /// </summary>
     public class TableName : IEquatable<TableName>
     {

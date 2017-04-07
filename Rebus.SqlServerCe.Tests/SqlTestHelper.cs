@@ -95,7 +95,7 @@ namespace Rebus.SqlServerCe.Tests
                     }
                     catch (SqlException exception)
                     {
-                        if (exception.Number == SqlServerMagic.ObjectDoesNotExistOrNoPermission) return;
+                        if (exception.Number == SqlServerCeMagic.ObjectDoesNotExistOrNoPermission) return;
 
                         throw;
                     }
@@ -195,7 +195,7 @@ namespace Rebus.SqlServerCe.Tests
 
         static string GetConnectionStringForDatabase(string databaseName)
         {
-            return Environment.GetEnvironmentVariable("REBUS_SQLSERVER")
+            return Environment.GetEnvironmentVariable("REBUS_SqlServerCe")
                    ?? $"server=.; database={databaseName}; trusted_connection=true;";
         }
     }

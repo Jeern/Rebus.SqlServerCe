@@ -11,9 +11,9 @@ using Rebus.Timeouts;
 namespace Rebus.SqlServerCe.Timeouts
 {
     /// <summary>
-    /// Implementation of <see cref="ITimeoutManager"/> that uses SQL Server to store messages until it's time to deliver them.
+    /// Implementation of <see cref="ITimeoutManager"/> that uses SQL Server Compact to store messages until it's time to deliver them.
     /// </summary>
-    public class SqlServerTimeoutManager : ITimeoutManager
+    public class SqlServerCeTimeoutManager : ITimeoutManager
     {
         static readonly HeaderSerializer HeaderSerializer = new HeaderSerializer();
         readonly IDbConnectionProvider _connectionProvider;
@@ -23,7 +23,7 @@ namespace Rebus.SqlServerCe.Timeouts
         /// <summary>
         /// Constructs the timeout manager, using the specified connection provider and table to store the messages until they're due.
         /// </summary>
-        public SqlServerTimeoutManager(IDbConnectionProvider connectionProvider, string tableName, IRebusLoggerFactory rebusLoggerFactory)
+        public SqlServerCeTimeoutManager(IDbConnectionProvider connectionProvider, string tableName, IRebusLoggerFactory rebusLoggerFactory)
         {
             if (connectionProvider == null) throw new ArgumentNullException(nameof(connectionProvider));
             if (tableName == null) throw new ArgumentNullException(nameof(tableName));
@@ -31,7 +31,7 @@ namespace Rebus.SqlServerCe.Timeouts
 
             _connectionProvider = connectionProvider;
             _tableName = TableName.Parse(tableName);
-            _log = rebusLoggerFactory.GetLogger<SqlServerTimeoutManager>();
+            _log = rebusLoggerFactory.GetLogger<SqlServerCeTimeoutManager>();
         }
 
         /// <summary>

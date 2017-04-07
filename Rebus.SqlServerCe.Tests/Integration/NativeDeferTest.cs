@@ -14,7 +14,7 @@ using Rebus.Tests.Contracts.Extensions;
 
 namespace Rebus.SqlServerCe.Tests.Integration
 {
-    [TestFixture, Category(Categories.SqlServer)]
+    [TestFixture, Category(Categories.SqlServerCe)]
     public class NativeDeferTest : FixtureBase
     {
         static readonly string QueueName = TestConfig.GetName("input");
@@ -30,7 +30,7 @@ namespace Rebus.SqlServerCe.Tests.Integration
             Using(_activator);
 
             _bus = Configure.With(_activator)
-                .Transport(t => t.UseSqlServer(SqlTestHelper.ConnectionString, "Messages", QueueName))
+                .Transport(t => t.UseSqlServerCe(SqlTestHelper.ConnectionString, "Messages", QueueName))
                 .Options(o =>
                 {
                     o.LogPipeline();

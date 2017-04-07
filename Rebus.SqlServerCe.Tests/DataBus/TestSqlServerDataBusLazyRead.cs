@@ -9,14 +9,14 @@ using Rebus.Tests.Contracts;
 namespace Rebus.SqlServerCe.Tests.DataBus
 {
     [TestFixture]
-    public class TestSqlServerDataBusLazyRead : FixtureBase
+    public class TestSqlServerCeDataBusLazyRead : FixtureBase
     {
         IDataBusStorage _storage;
-        SqlServerDataBusStorageFactory _factory;
+        SqlServerCeDataBusStorageFactory _factory;
 
         protected override void SetUp()
         {
-            _factory = new SqlServerDataBusStorageFactory();
+            _factory = new SqlServerCeDataBusStorageFactory();
             _storage = _factory.Create();
         }
 

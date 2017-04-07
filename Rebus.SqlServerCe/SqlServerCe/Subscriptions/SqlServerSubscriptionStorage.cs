@@ -11,9 +11,9 @@ using Rebus.Subscriptions;
 namespace Rebus.SqlServerCe.Subscriptions
 {
     /// <summary>
-    /// Implementation of <see cref="ISubscriptionStorage"/> that persists subscriptions in a table in SQL Server
+    /// Implementation of <see cref="ISubscriptionStorage"/> that persists subscriptions in a table in SQL Server Compact
     /// </summary>
-    public class SqlServerSubscriptionStorage : ISubscriptionStorage, IInitializable
+    public class SqlServerCeSubscriptionStorage : ISubscriptionStorage, IInitializable
     {
         readonly IDbConnectionProvider _connectionProvider;
         readonly TableName _tableName;
@@ -27,7 +27,7 @@ namespace Rebus.SqlServerCe.Subscriptions
         /// storage is shared by all subscribers and publishers, the <paramref name="isCentralized"/> parameter can be set to true
         /// in order to subscribe/unsubscribe directly instead of sending subscription/unsubscription requests
         /// </summary>
-        public SqlServerSubscriptionStorage(IDbConnectionProvider connectionProvider, string tableName, bool isCentralized, IRebusLoggerFactory rebusLoggerFactory)
+        public SqlServerCeSubscriptionStorage(IDbConnectionProvider connectionProvider, string tableName, bool isCentralized, IRebusLoggerFactory rebusLoggerFactory)
         {
             if (connectionProvider == null) throw new ArgumentNullException(nameof(connectionProvider));
             if (tableName == null) throw new ArgumentNullException(nameof(tableName));
@@ -35,13 +35,13 @@ namespace Rebus.SqlServerCe.Subscriptions
 
             IsCentralized = isCentralized;
 
-            _log = rebusLoggerFactory.GetLogger<SqlServerSubscriptionStorage>();
+            _log = rebusLoggerFactory.GetLogger<SqlServerCeSubscriptionStorage>();
             _connectionProvider = connectionProvider;
             _tableName = TableName.Parse(tableName);
         }
 
         /// <summary>
-        /// Initializes the subscription storage by reading the lengths of the [topic] and [address] columns from SQL Server
+        /// Initializes the subscription storage by reading the lengths of the [topic] and [address] columns from SQL Server Compact
         /// </summary>
         public void Initialize()
         {

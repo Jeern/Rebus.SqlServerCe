@@ -4,5 +4,5 @@ using Rebus.Tests.Contracts.Transports;
 namespace Rebus.SqlServerCe.Tests.Transport
 {
     [TestFixture]
-    public class SqlServerTestManyMessages : TestManyMessages<SqlServerBusFactory> { }
+    public class SqlServerCeTestManyMessages : TestManyMessages<SqlServerCeBusFactory> { }
 }

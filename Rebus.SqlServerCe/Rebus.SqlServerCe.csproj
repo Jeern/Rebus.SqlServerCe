@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="rebus" Version="4.0.0-b06" />
+    <PackageReference Include="Microsoft.SqlServer.Compact" Version="4.0.8852.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="Microsoft.CSharp" />

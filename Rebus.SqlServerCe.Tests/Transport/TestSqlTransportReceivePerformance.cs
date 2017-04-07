@@ -14,7 +14,7 @@ using Rebus.Tests.Contracts.Utilities;
 
 namespace Rebus.SqlServerCe.Tests.Transport
 {
-    [TestFixture, Category(Categories.SqlServer)]
+    [TestFixture, Category(Categories.SqlServerCe)]
     public class TestSqlTransportReceivePerformance : FixtureBase
     {
         BuiltinHandlerActivator _adapter;
@@ -37,7 +37,7 @@ CREATE INDEX IX_{TableName.ToUpperInvariant()}_ID
 
             Configure.With(_adapter)
                 .Logging(l => l.ColoredConsole(LogLevel.Warn))
-                .Transport(t => t.UseSqlServer(SqlTestHelper.ConnectionString, TableName, QueueName))
+                .Transport(t => t.UseSqlServerCe(SqlTestHelper.ConnectionString, TableName, QueueName))
                 .Options(o =>
                 {
                     o.SetNumberOfWorkers(0);

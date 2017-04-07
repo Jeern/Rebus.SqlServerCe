@@ -2,7 +2,7 @@
 {
     public class Categories
     {
-        public const string SqlServer = "sqlserver";
+        public const string SqlServerCe = "SqlServerCe";
         public const string Msmq = "msmq";
         public const string Filesystem = "filesystem";
     }

@@ -10,12 +10,12 @@ namespace Rebus.Config
     /// <summary>
     /// Configuration extensions for saga snapshots
     /// </summary>
-    public static class SqlServerSagaSnapshotsConfigurationExtensions
+    public static class SqlServerCeSagaSnapshotsConfigurationExtensions
     {
         /// <summary>
-        /// Configures Rebus to store saga snapshots in SQL Server
+        /// Configures Rebus to store saga snapshots in SQL Server Compact
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ISagaSnapshotStorage> configurer,
+        public static void StoreInSqlServerCe(this StandardConfigurer<ISagaSnapshotStorage> configurer,
             string connectionStringOrConnectionStringName, string tableName, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
@@ -26,7 +26,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionProvider(connectionStringOrConnectionStringName, rebusLoggerFactory);
-                var snapshotStorage = new SqlServerSagaSnapshotStorage(connectionProvider, tableName, rebusLoggerFactory);
+                var snapshotStorage = new SqlServerCeSagaSnapshotStorage(connectionProvider, tableName, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {
@@ -38,9 +38,9 @@ namespace Rebus.Config
         }
 
         /// <summary>
-        /// Configures Rebus to store saga snapshots in SQL Server
+        /// Configures Rebus to store saga snapshots in SQL Server Compact
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ISagaSnapshotStorage> configurer,
+        public static void StoreInSqlServerCe(this StandardConfigurer<ISagaSnapshotStorage> configurer,
             Func<Task<IDbConnection>> connectionFactory, string tableName, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
@@ -51,7 +51,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionFactoryProvider(connectionFactory, rebusLoggerFactory);
-                var snapshotStorage = new SqlServerSagaSnapshotStorage(connectionProvider, tableName, rebusLoggerFactory);
+                var snapshotStorage = new SqlServerCeSagaSnapshotStorage(connectionProvider, tableName, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {

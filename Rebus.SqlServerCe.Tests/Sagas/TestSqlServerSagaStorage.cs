@@ -10,9 +10,9 @@ using Rebus.Tests.Contracts;
 namespace Rebus.SqlServerCe.Tests.Sagas
 {
     [TestFixture]
-    public class TestSqlServerSagaStorage : FixtureBase
+    public class TestSqlServerCeSagaStorage : FixtureBase
     {
-        SqlServerSagaStorage _storage;
+        SqlServerCeSagaStorage _storage;
         string _dataTableName;
         DbConnectionProvider _connectionProvider;
         string _indexTableName;
@@ -28,7 +28,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
             SqlTestHelper.DropTable(_indexTableName);
             SqlTestHelper.DropTable(_dataTableName);
 
-            _storage = new SqlServerSagaStorage(_connectionProvider, _dataTableName, _indexTableName, loggerFactory);
+            _storage = new SqlServerCeSagaStorage(_connectionProvider, _dataTableName, _indexTableName, loggerFactory);
         }
 
         [Test]

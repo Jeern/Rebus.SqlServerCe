@@ -5,7 +5,7 @@ using Rebus.Tests.Contracts.Subscriptions;
 
 namespace Rebus.SqlServerCe.Tests.Subscriptions
 {
-    public class SqlServerSubscriptionStorageFactory : ISubscriptionStorageFactory
+    public class SqlServerCeSubscriptionStorageFactory : ISubscriptionStorageFactory
     {
         const string TableName = "RebusSubscriptions";
         
@@ -13,7 +13,7 @@ namespace Rebus.SqlServerCe.Tests.Subscriptions
         {
             var consoleLoggerFactory = new ConsoleLoggerFactory(true);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
-            var storage = new SqlServerSubscriptionStorage(connectionProvider, TableName, true, consoleLoggerFactory);
+            var storage = new SqlServerCeSubscriptionStorage(connectionProvider, TableName, true, consoleLoggerFactory);
 
             storage.EnsureTableIsCreated();
             

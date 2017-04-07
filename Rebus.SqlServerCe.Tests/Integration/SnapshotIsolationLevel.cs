@@ -71,7 +71,7 @@ CREATE TABLE [dbo].[Messages](
                 {
                     var connectionString = SqlTestHelper.ConnectionString;
 
-                    t.UseSqlServer(async () =>
+                    t.UseSqlServerCe(async () =>
                     {
                         var sqlConnection = new SqlConnection(connectionString);
                         await sqlConnection.OpenAsync();

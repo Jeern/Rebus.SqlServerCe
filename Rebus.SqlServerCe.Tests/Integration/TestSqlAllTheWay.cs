@@ -13,7 +13,7 @@ using Rebus.Tests.Contracts.Extensions;
 
 namespace Rebus.SqlServerCe.Tests.Integration
 {
-    [TestFixture, Category(Categories.SqlServer)]
+    [TestFixture, Category(Categories.SqlServerCe)]
     public class TestSqlAllTheWay : FixtureBase
     {
         static readonly string ConnectionString = SqlTestHelper.ConnectionString;
@@ -30,8 +30,8 @@ namespace Rebus.SqlServerCe.Tests.Integration
             Using(_activator);
 
             _bus = Configure.With(_activator)
-                .Transport(x => x.UseSqlServer(ConnectionString, "RebusMessages", "test.input"))
-                .Sagas(x => x.StoreInSqlServer(ConnectionString, "Sagas", "SagaIndex"))
+                .Transport(x => x.UseSqlServerCe(ConnectionString, "RebusMessages", "test.input"))
+                .Sagas(x => x.StoreInSqlServerCe(ConnectionString, "Sagas", "SagaIndex"))
                 .Options(x =>
                 {
                     x.SetNumberOfWorkers(1);

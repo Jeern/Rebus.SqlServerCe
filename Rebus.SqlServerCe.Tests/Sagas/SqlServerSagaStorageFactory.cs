@@ -6,21 +6,21 @@ using Rebus.Tests.Contracts.Sagas;
 
 namespace Rebus.SqlServerCe.Tests.Sagas
 {
-    [TestFixture, Category(Categories.SqlServer)]
-    public class SqlServerSagaStorageBasicLoadAndSaveAndFindOperations : BasicLoadAndSaveAndFindOperations<SqlServerSagaStorageFactory> { }
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class SqlServerCeSagaStorageBasicLoadAndSaveAndFindOperations : BasicLoadAndSaveAndFindOperations<SqlServerCeSagaStorageFactory> { }
 
-    [TestFixture, Category(Categories.SqlServer)]
-    public class SqlServerSagaStorageConcurrencyHandling : ConcurrencyHandling<SqlServerSagaStorageFactory> { }
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class SqlServerCeSagaStorageConcurrencyHandling : ConcurrencyHandling<SqlServerCeSagaStorageFactory> { }
 
-    [TestFixture, Category(Categories.SqlServer)]
-    public class SqlServerSagaStorageSagaIntegrationTests : SagaIntegrationTests<SqlServerSagaStorageFactory> { }
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class SqlServerCeSagaStorageSagaIntegrationTests : SagaIntegrationTests<SqlServerCeSagaStorageFactory> { }
 
-    public class SqlServerSagaStorageFactory : ISagaStorageFactory
+    public class SqlServerCeSagaStorageFactory : ISagaStorageFactory
     {
         const string IndexTableName = "RebusSagaIndex";
         const string DataTableName = "RebusSagaData";
 
-        public SqlServerSagaStorageFactory()
+        public SqlServerCeSagaStorageFactory()
         {
             CleanUp();
         }
@@ -29,7 +29,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
         {
             var consoleLoggerFactory = new ConsoleLoggerFactory(true);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
-            var storage = new SqlServerSagaStorage(connectionProvider, DataTableName, IndexTableName, consoleLoggerFactory);
+            var storage = new SqlServerCeSagaStorage(connectionProvider, DataTableName, IndexTableName, consoleLoggerFactory);
 
             storage.EnsureTablesAreCreated();
 

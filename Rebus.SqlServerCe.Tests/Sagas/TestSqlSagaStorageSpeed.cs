@@ -35,7 +35,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
             Configure.With(_activator)
                 .Logging(l => l.Console(LogLevel.Warn))
                 .Transport(t => t.UseInMemoryTransport(new InMemNetwork(), "saga-perf"))
-                .Sagas(s => s.StoreInSqlServer(SqlTestHelper.ConnectionString, _dataTableName, _indexTableName))
+                .Sagas(s => s.StoreInSqlServerCe(SqlTestHelper.ConnectionString, _dataTableName, _indexTableName))
                 .Options(o =>
                 {
                     o.SetNumberOfWorkers(1);

@@ -16,9 +16,9 @@ using Rebus.Time;
 namespace Rebus.SqlServerCe.DataBus
 {
     /// <summary>
-    /// Implementation of <see cref="IDataBusStorage"/> that uses SQL Server to store data
+    /// Implementation of <see cref="IDataBusStorage"/> that uses SQL Server Compact to store data
     /// </summary>
-    public class SqlServerDataBusStorage : IDataBusStorage, IInitializable
+    public class SqlServerCeDataBusStorage : IDataBusStorage, IInitializable
     {
         static readonly Encoding TextEncoding = Encoding.UTF8;
         readonly DictionarySerializer _dictionarySerializer = new DictionarySerializer();
@@ -30,7 +30,7 @@ namespace Rebus.SqlServerCe.DataBus
         /// <summary>
         /// Creates the data storage
         /// </summary>
-        public SqlServerDataBusStorage(IDbConnectionProvider connectionProvider, string tableName, bool ensureTableIsCreated, IRebusLoggerFactory rebusLoggerFactory)
+        public SqlServerCeDataBusStorage(IDbConnectionProvider connectionProvider, string tableName, bool ensureTableIsCreated, IRebusLoggerFactory rebusLoggerFactory)
         {
             if (connectionProvider == null) throw new ArgumentNullException(nameof(connectionProvider));
             if (tableName == null) throw new ArgumentNullException(nameof(tableName));
@@ -38,11 +38,11 @@ namespace Rebus.SqlServerCe.DataBus
             _connectionProvider = connectionProvider;
             _tableName = TableName.Parse(tableName);
             _ensureTableIsCreated = ensureTableIsCreated;
-            _log = rebusLoggerFactory.GetLogger<SqlServerDataBusStorage>();
+            _log = rebusLoggerFactory.GetLogger<SqlServerCeDataBusStorage>();
         }
 
         /// <summary>
-        /// Initializes the SQL Server data storage.
+        /// Initializes the SQL Server Compact data storage.
         /// Will create the data table, unless this has been explicitly turned off when configuring the data storage
         /// </summary>
         public void Initialize()

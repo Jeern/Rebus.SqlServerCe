@@ -10,12 +10,12 @@ namespace Rebus.Config
     /// <summary>
     /// Configuration extensions for configuring SQL persistence for sagas, subscriptions, and timeouts.
     /// </summary>
-    public static class SqlServerTimeoutsConfigurationExtensions
+    public static class SqlServerCeTimeoutsConfigurationExtensions
     {
         /// <summary>
-        /// Configures Rebus to use SQL Server to store timeouts.
+        /// Configures Rebus to use SQL Server Compact to store timeouts.
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ITimeoutManager> configurer, 
+        public static void StoreInSqlServerCe(this StandardConfigurer<ITimeoutManager> configurer, 
             string connectionStringOrConnectionStringName, string tableName, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
@@ -26,7 +26,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionProvider(connectionStringOrConnectionStringName, rebusLoggerFactory);
-                var subscriptionStorage = new SqlServerTimeoutManager(connectionProvider, tableName, rebusLoggerFactory);
+                var subscriptionStorage = new SqlServerCeTimeoutManager(connectionProvider, tableName, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {
@@ -38,9 +38,9 @@ namespace Rebus.Config
         }
 
         /// <summary>
-        /// Configures Rebus to use SQL Server to store timeouts.
+        /// Configures Rebus to use SQL Server Compact to store timeouts.
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ITimeoutManager> configurer,
+        public static void StoreInSqlServerCe(this StandardConfigurer<ITimeoutManager> configurer,
             Func<Task<IDbConnection>> connectionFactory, string tableName, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
@@ -51,7 +51,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionFactoryProvider(connectionFactory, rebusLoggerFactory);
-                var subscriptionStorage = new SqlServerTimeoutManager(connectionProvider, tableName, rebusLoggerFactory);
+                var subscriptionStorage = new SqlServerCeTimeoutManager(connectionProvider, tableName, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {

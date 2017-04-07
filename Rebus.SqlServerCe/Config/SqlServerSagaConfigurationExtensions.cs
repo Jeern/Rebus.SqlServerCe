@@ -10,12 +10,12 @@ namespace Rebus.Config
     /// <summary>
     /// Configuration extensions for sagas
     /// </summary>
-    public static class SqlServerSagaConfigurationExtensions
+    public static class SqlServerCeSagaConfigurationExtensions
     {
         /// <summary>
-        /// Configures Rebus to use SQL Server to store sagas, using the tables specified to store data and indexed properties respectively.
+        /// Configures Rebus to use SQL Server Compact to store sagas, using the tables specified to store data and indexed properties respectively.
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ISagaStorage> configurer,
+        public static void StoreInSqlServerCe(this StandardConfigurer<ISagaStorage> configurer,
             string connectionStringOrConnectionStringName, string dataTableName, string indexTableName,
             bool automaticallyCreateTables = true)
         {
@@ -28,7 +28,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionProvider(connectionStringOrConnectionStringName, rebusLoggerFactory);
-                var sagaStorage = new SqlServerSagaStorage(connectionProvider, dataTableName, indexTableName, rebusLoggerFactory);
+                var sagaStorage = new SqlServerCeSagaStorage(connectionProvider, dataTableName, indexTableName, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {
@@ -40,9 +40,9 @@ namespace Rebus.Config
         }
 
         /// <summary>
-        /// Configures Rebus to use SQL Server to store sagas, using the tables specified to store data and indexed properties respectively.
+        /// Configures Rebus to use SQL Server Compact to store sagas, using the tables specified to store data and indexed properties respectively.
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ISagaStorage> configurer,
+        public static void StoreInSqlServerCe(this StandardConfigurer<ISagaStorage> configurer,
             Func<Task<IDbConnection>> connectionFactory, string dataTableName, string indexTableName,
             bool automaticallyCreateTables = true)
         {
@@ -55,7 +55,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionFactoryProvider(connectionFactory, rebusLoggerFactory);
-                var sagaStorage = new SqlServerSagaStorage(connectionProvider, dataTableName, indexTableName, rebusLoggerFactory);
+                var sagaStorage = new SqlServerCeSagaStorage(connectionProvider, dataTableName, indexTableName, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {

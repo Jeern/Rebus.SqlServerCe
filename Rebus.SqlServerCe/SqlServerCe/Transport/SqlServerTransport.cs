@@ -19,9 +19,9 @@ using Rebus.Transport;
 namespace Rebus.SqlServerCe.Transport
 {
     /// <summary>
-    /// Implementation of <see cref="ITransport"/> that uses SQL Server to do its thing
+    /// Implementation of <see cref="ITransport"/> that uses SQL Server Compact to do its thing
     /// </summary>
-    public class SqlServerTransport : ITransport, IInitializable, IDisposable
+    public class SqlServerCeTransport : ITransport, IInitializable, IDisposable
     {
         static readonly HeaderSerializer HeaderSerializer = new HeaderSerializer();
 
@@ -31,7 +31,7 @@ namespace Rebus.SqlServerCe.Transport
         public const string MagicExternalTimeoutManagerAddress = "##### MagicExternalTimeoutManagerAddress #####";
 
         /// <summary>
-        /// Special message priority header that can be used with the <see cref="SqlServerTransport"/>. The value must be an <see cref="Int32"/>
+        /// Special message priority header that can be used with the <see cref="SqlServerCeTransport"/>. The value must be an <see cref="Int32"/>
         /// </summary>
         public const string MessagePriorityHeaderKey = "rbs2-msg-priority";
 
@@ -56,7 +56,7 @@ namespace Rebus.SqlServerCe.Transport
         /// Constructs the transport with the given <see cref="IDbConnectionProvider"/>, using the specified <paramref name="tableName"/> to send/receive messages,
         /// querying for messages with recipient = <paramref name="inputQueueName"/>
         /// </summary>
-        public SqlServerTransport(IDbConnectionProvider connectionProvider, string tableName, string inputQueueName, IRebusLoggerFactory rebusLoggerFactory, IAsyncTaskFactory asyncTaskFactory)
+        public SqlServerCeTransport(IDbConnectionProvider connectionProvider, string tableName, string inputQueueName, IRebusLoggerFactory rebusLoggerFactory, IAsyncTaskFactory asyncTaskFactory)
         {
             if (connectionProvider == null) throw new ArgumentNullException(nameof(connectionProvider));
             if (tableName == null) throw new ArgumentNullException(nameof(tableName));
@@ -66,7 +66,7 @@ namespace Rebus.SqlServerCe.Transport
             _connectionProvider = connectionProvider;
             _tableName = TableName.Parse(tableName);
             _inputQueueName = inputQueueName;
-            _log = rebusLoggerFactory.GetLogger<SqlServerTransport>();
+            _log = rebusLoggerFactory.GetLogger<SqlServerCeTransport>();
 
             ExpiredMessagesCleanupInterval = DefaultExpiredMessagesCleanupInterval;
 

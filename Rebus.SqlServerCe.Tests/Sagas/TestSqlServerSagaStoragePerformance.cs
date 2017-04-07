@@ -11,9 +11,9 @@ using Rebus.Tests.Contracts;
 namespace Rebus.SqlServerCe.Tests.Sagas
 {
     [TestFixture]
-    public class TestSqlServerSagaStoragePerformance : FixtureBase
+    public class TestSqlServerCeSagaStoragePerformance : FixtureBase
     {
-        SqlServerSagaStorage _storage;
+        SqlServerCeSagaStorage _storage;
 
         protected override void SetUp()
         {
@@ -26,7 +26,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
             SqlTestHelper.DropTable(indexTableName);
             SqlTestHelper.DropTable(dataTableName);
 
-            _storage = new SqlServerSagaStorage(connectionProvider, dataTableName, indexTableName, loggerFactory);
+            _storage = new SqlServerCeSagaStorage(connectionProvider, dataTableName, indexTableName, loggerFactory);
 
             _storage.EnsureTablesAreCreated();
         }

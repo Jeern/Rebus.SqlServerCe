@@ -15,12 +15,12 @@ using Rebus.Transport;
 
 namespace Rebus.SqlServerCe.Tests.Transport
 {
-    [TestFixture, Category(Categories.SqlServer)]
-    public class TestSqlServerTransport : FixtureBase
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class TestSqlServerCeTransport : FixtureBase
     {
         const string QueueName = "input";
         readonly string _tableName = "messages" + TestConfig.Suffix;
-        SqlServerTransport _transport;
+        SqlServerCeTransport _transport;
         CancellationToken _cancellationToken;
 
         protected override void SetUp()
@@ -30,7 +30,7 @@ namespace Rebus.SqlServerCe.Tests.Transport
             var consoleLoggerFactory = new ConsoleLoggerFactory(false);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
             var asyncTaskFactory = new TplAsyncTaskFactory(consoleLoggerFactory);
-            _transport = new SqlServerTransport(connectionProvider, _tableName, QueueName, consoleLoggerFactory, asyncTaskFactory);
+            _transport = new SqlServerCeTransport(connectionProvider, _tableName, QueueName, consoleLoggerFactory, asyncTaskFactory);
             _transport.EnsureTableIsCreated();
 
             Using(_transport);

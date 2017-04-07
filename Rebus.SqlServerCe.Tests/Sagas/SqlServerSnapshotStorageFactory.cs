@@ -9,11 +9,11 @@ using Rebus.Tests.Contracts.Sagas;
 
 namespace Rebus.SqlServerCe.Tests.Sagas
 {
-    public class SqlServerSnapshotStorageFactory : ISagaSnapshotStorageFactory
+    public class SqlServerCeSnapshotStorageFactory : ISagaSnapshotStorageFactory
     {
         const string TableName = "SagaSnapshots";
 
-        public SqlServerSnapshotStorageFactory()
+        public SqlServerCeSnapshotStorageFactory()
         {
             SqlTestHelper.DropTable(TableName);
         }
@@ -23,7 +23,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
             var consoleLoggerFactory = new ConsoleLoggerFactory(true);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
 
-            var snapperino = new SqlServerSagaSnapshotStorage(connectionProvider, TableName, consoleLoggerFactory);
+            var snapperino = new SqlServerCeSagaSnapshotStorage(connectionProvider, TableName, consoleLoggerFactory);
 
             snapperino.EnsureTableIsCreated();
 

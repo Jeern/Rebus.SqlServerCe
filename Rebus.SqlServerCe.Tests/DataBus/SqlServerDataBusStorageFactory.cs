@@ -5,9 +5,9 @@ using Rebus.Tests.Contracts.DataBus;
 
 namespace Rebus.SqlServerCe.Tests.DataBus
 {
-    public class SqlServerDataBusStorageFactory : IDataBusStorageFactory
+    public class SqlServerCeDataBusStorageFactory : IDataBusStorageFactory
     {
-        public SqlServerDataBusStorageFactory()
+        public SqlServerCeDataBusStorageFactory()
         {
             SqlTestHelper.DropTable("databus");
         }
@@ -16,9 +16,9 @@ namespace Rebus.SqlServerCe.Tests.DataBus
         {
             var consoleLoggerFactory = new ConsoleLoggerFactory(false);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
-            var sqlServerDataBusStorage = new SqlServerDataBusStorage(connectionProvider, "databus", true, consoleLoggerFactory);
-            sqlServerDataBusStorage.Initialize();
-            return sqlServerDataBusStorage;
+            var SqlServerCeDataBusStorage = new SqlServerCeDataBusStorage(connectionProvider, "databus", true, consoleLoggerFactory);
+            SqlServerCeDataBusStorage.Initialize();
+            return SqlServerCeDataBusStorage;
         }
 
         public void CleanUp()

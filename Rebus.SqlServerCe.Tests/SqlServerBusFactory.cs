@@ -10,7 +10,7 @@ using Rebus.Tests.Contracts.Transports;
 
 namespace Rebus.SqlServerCe.Tests
 {
-    public class SqlServerBusFactory : IBusFactory
+    public class SqlServerCeBusFactory : IBusFactory
     {
         readonly List<IDisposable> _stuffToDispose = new List<IDisposable>();
 
@@ -25,7 +25,7 @@ namespace Rebus.SqlServerCe.Tests
             SqlTestHelper.DropTable(tableName);
 
             var bus = Configure.With(builtinHandlerActivator)
-                .Transport(t => t.UseSqlServer(SqlTestHelper.ConnectionString, tableName, inputQueueAddress))
+                .Transport(t => t.UseSqlServerCe(SqlTestHelper.ConnectionString, tableName, inputQueueAddress))
                 .Options(o =>
                 {
                     o.SetNumberOfWorkers(10);

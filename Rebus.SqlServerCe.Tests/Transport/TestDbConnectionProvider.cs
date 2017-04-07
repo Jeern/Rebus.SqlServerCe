@@ -4,7 +4,7 @@ using Rebus.Logging;
 
 namespace Rebus.SqlServerCe.Tests.Transport
 {
-    [TestFixture, Category(Categories.SqlServer)]
+    [TestFixture, Category(Categories.SqlServerCe)]
     public class TestDbConnectionProvider
     {
         [Test, Ignore("assumes existence of a bimse table")]

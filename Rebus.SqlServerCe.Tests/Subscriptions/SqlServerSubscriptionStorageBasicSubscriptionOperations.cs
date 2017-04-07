@@ -3,8 +3,8 @@ using Rebus.Tests.Contracts.Subscriptions;
 
 namespace Rebus.SqlServerCe.Tests.Subscriptions
 {
-    [TestFixture, Category(Categories.SqlServer)]
-    public class SqlServerSubscriptionStorageBasicSubscriptionOperations : BasicSubscriptionOperations<SqlServerSubscriptionStorageFactory>
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class SqlServerCeSubscriptionStorageBasicSubscriptionOperations : BasicSubscriptionOperations<SqlServerCeSubscriptionStorageFactory>
     {
     }
 }

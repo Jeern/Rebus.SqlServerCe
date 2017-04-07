@@ -8,14 +8,14 @@ using Rebus.SqlServerCe.DataBus;
 namespace Rebus.Config
 {
     /// <summary>
-    /// Configuration extensions for SQL Server data bus
+    /// Configuration extensions for SQL Server Compact data bus
     /// </summary>
-    public static class SqlServerDataBusConfigurationExtensions
+    public static class SqlServerCeDataBusConfigurationExtensions
     {
         /// <summary>
-        /// Configures the data bus to store data in a central SQL Server 
+        /// Configures the data bus to store data in SQL Server Compact
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<IDataBusStorage> configurer, string connectionStringOrConnectionStringName, string tableName, bool automaticallyCreateTables = true)
+        public static void StoreInSqlServerCe(this StandardConfigurer<IDataBusStorage> configurer, string connectionStringOrConnectionStringName, string tableName, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
             if (connectionStringOrConnectionStringName == null) throw new ArgumentNullException(nameof(connectionStringOrConnectionStringName));
@@ -25,14 +25,14 @@ namespace Rebus.Config
             {
                 var loggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionProvider(connectionStringOrConnectionStringName, loggerFactory);
-                return new SqlServerDataBusStorage(connectionProvider, tableName, automaticallyCreateTables, loggerFactory);
+                return new SqlServerCeDataBusStorage(connectionProvider, tableName, automaticallyCreateTables, loggerFactory);
             });
         }
 
         /// <summary>
-        /// Configures the data bus to store data in a central SQL Server 
+        /// Configures the data bus to store data in a central SQL Server Compact
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<IDataBusStorage> configurer, Func<Task<IDbConnection>> connectionFactory, string tableName, bool automaticallyCreateTables = true)
+        public static void StoreInSqlServerCe(this StandardConfigurer<IDataBusStorage> configurer, Func<Task<IDbConnection>> connectionFactory, string tableName, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
             if (connectionFactory == null) throw new ArgumentNullException(nameof(connectionFactory));
@@ -42,7 +42,7 @@ namespace Rebus.Config
             {
                 var loggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionFactoryProvider(connectionFactory, loggerFactory);
-                return new SqlServerDataBusStorage(connectionProvider, tableName, automaticallyCreateTables, loggerFactory);
+                return new SqlServerCeDataBusStorage(connectionProvider, tableName, automaticallyCreateTables, loggerFactory);
             });
         }
     }

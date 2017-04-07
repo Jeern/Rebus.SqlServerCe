@@ -14,11 +14,11 @@ using Rebus.Serialization;
 namespace Rebus.SqlServerCe.Sagas
 {
     /// <summary>
-    /// Implementation of <see cref="ISagaStorage"/> that persists saga data as a Newtonsoft JSON.NET-serialized object to a table in SQL Server.
+    /// Implementation of <see cref="ISagaStorage"/> that persists saga data as a Newtonsoft JSON.NET-serialized object to a table in SQL Server Compact.
     /// Correlation properties are stored in a separate index table, allowing for looking up saga data instanes based on the configured correlation
     /// properties
     /// </summary>
-    public class SqlServerSagaStorage : ISagaStorage, IInitializable
+    public class SqlServerCeSagaStorage : ISagaStorage, IInitializable
     {
         const int MaximumSagaDataTypeNameLength = 40;
         const string IdPropertyName = nameof(ISagaData.Id);
@@ -36,14 +36,14 @@ namespace Rebus.SqlServerCe.Sagas
         /// <summary>
         /// Constructs the saga storage, using the specified connection provider and tables for persistence.
         /// </summary>
-		public SqlServerSagaStorage(IDbConnectionProvider connectionProvider, string dataTableName, string indexTableName, IRebusLoggerFactory rebusLoggerFactory)
+		public SqlServerCeSagaStorage(IDbConnectionProvider connectionProvider, string dataTableName, string indexTableName, IRebusLoggerFactory rebusLoggerFactory)
         {
             if (connectionProvider == null) throw new ArgumentNullException(nameof(connectionProvider));
             if (dataTableName == null) throw new ArgumentNullException(nameof(dataTableName));
             if (indexTableName == null) throw new ArgumentNullException(nameof(indexTableName));
             if (rebusLoggerFactory == null) throw new ArgumentNullException(nameof(rebusLoggerFactory));
 
-            _log = rebusLoggerFactory.GetLogger<SqlServerSagaStorage>();
+            _log = rebusLoggerFactory.GetLogger<SqlServerCeSagaStorage>();
             _connectionProvider = connectionProvider;
             _dataTableName = TableName.Parse(dataTableName);
             _indexTableName = TableName.Parse(indexTableName);
@@ -221,7 +221,7 @@ ALTER TABLE {_indexTableName.QualifiedName} CHECK CONSTRAINT [FK_{_dataTableName
                 {
                     throw new RebusApplicationException(@"Sorry, but the [data] column data type was changed from NVarChar(MAX) to VarBinary(MAX) in Rebus 0.99.60.
 
-This was done because it turned out that SQL Server was EXTREMELY SLOW to load a saga's data when it was saved as NVarChar - you can expect a reduction in saga data loading time to about 1/10 of the previous time from Rebus version 0.99.60 and on.
+This was done because it turned out that SQL Server Compact was EXTREMELY SLOW to load a saga's data when it was saved as NVarChar - you can expect a reduction in saga data loading time to about 1/10 of the previous time from Rebus version 0.99.60 and on.
 
 Unfortunately, Rebus cannot help migrating any existing pieces of saga data :( so we suggest you wait for a good time when the saga data table is empty, and then you simply wipe the tables and let Rebus (re-)create them.");
                 }
@@ -327,7 +327,7 @@ WHERE [index].[saga_type] = @saga_type
                     }
                     catch (SqlException sqlException)
                     {
-                        if (sqlException.Number == SqlServerMagic.PrimaryKeyViolationNumber)
+                        if (sqlException.Number == SqlServerCeMagic.PrimaryKeyViolationNumber)
                         {
                             throw new ConcurrencyException($"An exception occurred while attempting to insert saga data with ID {sagaData.Id}");
                         }
@@ -520,7 +520,7 @@ VALUES
                 }
                 catch (SqlException sqlException)
                 {
-                    if (sqlException.Number == SqlServerMagic.PrimaryKeyViolationNumber)
+                    if (sqlException.Number == SqlServerCeMagic.PrimaryKeyViolationNumber)
                     {
                         throw new ConcurrencyException($"Could not update index for saga with ID {sagaData.Id} because of a PK violation - there must already exist a saga instance that uses one of the following correlation properties: {string.Join(", ", propertiesToIndexList.Select(p => $"{p.Key}='{p.Value}'"))}");
                     }
@@ -539,7 +539,7 @@ VALUES
             {
                 throw new InvalidOperationException(
                     $@"Sorry, but the maximum length of the name of a saga data class is currently limited to {MaximumSagaDataTypeNameLength} characters!
-This is due to a limitation in SQL Server, where compound indexes have a 900 byte upper size limit - and
+This is due to a limitation in SQL Server Compact, where compound indexes have a 900 byte upper size limit - and
 since the saga index needs to be able to efficiently query by saga type, key, and value at the same time,
 there's room for only 200 characters as the key, 200 characters as the value, and 40 characters as the
 saga type name.");

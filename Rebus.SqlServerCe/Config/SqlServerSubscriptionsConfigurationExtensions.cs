@@ -10,14 +10,14 @@ namespace Rebus.Config
     /// <summary>
     /// Configuration extensions for subscriptions
     /// </summary>
-    public static class SqlServerSubscriptionsConfigurationExtensions
+    public static class SqlServerCeSubscriptionsConfigurationExtensions
     {
         /// <summary>
-        /// Configures Rebus to use SQL Server to store subscriptions. Use <paramref name="isCentralized"/> = true to indicate whether it's OK to short-circuit
+        /// Configures Rebus to use SQL Server Compact to store subscriptions. Use <paramref name="isCentralized"/> = true to indicate whether it's OK to short-circuit
         /// subscribing and unsubscribing by manipulating the subscription directly from the subscriber or just let it default to false to preserve the
         /// default behavior.
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ISubscriptionStorage> configurer,
+        public static void StoreInSqlServerCe(this StandardConfigurer<ISubscriptionStorage> configurer,
             string connectionStringOrConnectionStringName, string tableName, bool isCentralized = false, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
@@ -28,7 +28,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionProvider(connectionStringOrConnectionStringName, rebusLoggerFactory);
-                var subscriptionStorage = new SqlServerSubscriptionStorage(connectionProvider, tableName, isCentralized, rebusLoggerFactory);
+                var subscriptionStorage = new SqlServerCeSubscriptionStorage(connectionProvider, tableName, isCentralized, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {
@@ -40,11 +40,11 @@ namespace Rebus.Config
         }
 
         /// <summary>
-        /// Configures Rebus to use SQL Server to store subscriptions. Use <paramref name="isCentralized"/> = true to indicate whether it's OK to short-circuit
+        /// Configures Rebus to use SQL Server Compact to store subscriptions. Use <paramref name="isCentralized"/> = true to indicate whether it's OK to short-circuit
         /// subscribing and unsubscribing by manipulating the subscription directly from the subscriber or just let it default to false to preserve the
         /// default behavior.
         /// </summary>
-        public static void StoreInSqlServer(this StandardConfigurer<ISubscriptionStorage> configurer,
+        public static void StoreInSqlServerCe(this StandardConfigurer<ISubscriptionStorage> configurer,
             Func<Task<IDbConnection>> connectionFactory, string tableName, bool isCentralized = false, bool automaticallyCreateTables = true)
         {
             if (configurer == null) throw new ArgumentNullException(nameof(configurer));
@@ -55,7 +55,7 @@ namespace Rebus.Config
             {
                 var rebusLoggerFactory = c.Get<IRebusLoggerFactory>();
                 var connectionProvider = new DbConnectionFactoryProvider(connectionFactory, rebusLoggerFactory);
-                var subscriptionStorage = new SqlServerSubscriptionStorage(connectionProvider, tableName, isCentralized, rebusLoggerFactory);
+                var subscriptionStorage = new SqlServerCeSubscriptionStorage(connectionProvider, tableName, isCentralized, rebusLoggerFactory);
 
                 if (automaticallyCreateTables)
                 {

@@ -14,9 +14,9 @@ using Rebus.Tests.Contracts.Extensions;
 namespace Rebus.SqlServerCe.Tests.DataBus
 {
     [TestFixture]
-    public class TestSqlServerDataBusStorage : FixtureBase
+    public class TestSqlServerCeDataBusStorage : FixtureBase
     {
-        SqlServerDataBusStorage _storage;
+        SqlServerCeDataBusStorage _storage;
 
         protected override void SetUp()
         {
@@ -27,7 +27,7 @@ namespace Rebus.SqlServerCe.Tests.DataBus
 
             SqlTestHelper.DropTable(tableName);
 
-            _storage = new SqlServerDataBusStorage(connectionProvider, tableName, true, loggerFactory);
+            _storage = new SqlServerCeDataBusStorage(connectionProvider, tableName, true, loggerFactory);
             _storage.Initialize();
         }
 

@@ -4,14 +4,14 @@ using NUnit.Framework;
 using Rebus.Extensions;
 using Rebus.Logging;
 using Rebus.SqlServerCe.Subscriptions;
-using Rebus.SqlServerCe.Tests.Subscriptions.This.Is.Just.An.Incredibly.Long.And.Silly.Namespace.Name.That.Needs.To.Be.Even.Longer.Because.It.Just.Needs.To.Be.Long.OK.But.Soon.It.Must.Be.Long.Enough.To.Exceed.That.Silly.Limit.In.SqlServer;
+using Rebus.SqlServerCe.Tests.Subscriptions.This.Is.Just.An.Incredibly.Long.And.Silly.Namespace.Name.That.Needs.To.Be.Even.Longer.Because.It.Just.Needs.To.Be.Long.OK.But.Soon.It.Must.Be.Long.Enough.To.Exceed.That.Silly.Limit.In.SqlServerCe;
 using Rebus.Tests.Contracts;
 #pragma warning disable 1998
 
 namespace Rebus.SqlServerCe.Tests.Subscriptions
 {
     [TestFixture]
-    public class TestSqlServerSubscriptionStorage : FixtureBase
+    public class TestSqlServerCeSubscriptionStorage : FixtureBase
     {
         [Test]
         public async Task GetsAnAppropriateExceptionWhenAttemptingToRegisterSubscriberForTooLongTopic()
@@ -62,13 +62,13 @@ namespace Rebus.SqlServerCe.Tests.Subscriptions
             Assert.That(subscribers2, Is.EqualTo(new string[0]));
         }
 
-        static SqlServerSubscriptionStorage GetStorage(bool createCustomSchema)
+        static SqlServerCeSubscriptionStorage GetStorage(bool createCustomSchema)
         {
             SqlTestHelper.DropTable("Subscriptions");
 
             var loggerFactory = new ConsoleLoggerFactory(false);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, loggerFactory);
-            var storage = new SqlServerSubscriptionStorage(connectionProvider, "Subscriptions", true, loggerFactory);
+            var storage = new SqlServerCeSubscriptionStorage(connectionProvider, "Subscriptions", true, loggerFactory);
 
             if (createCustomSchema)
             {
@@ -99,7 +99,7 @@ namespace Rebus.SqlServerCe.Tests.Subscriptions
         }
     }
 
-    namespace This.Is.Just.An.Incredibly.Long.And.Silly.Namespace.Name.That.Needs.To.Be.Even.Longer.Because.It.Just.Needs.To.Be.Long.OK.But.Soon.It.Must.Be.Long.Enough.To.Exceed.That.Silly.Limit.In.SqlServer
+    namespace This.Is.Just.An.Incredibly.Long.And.Silly.Namespace.Name.That.Needs.To.Be.Even.Longer.Because.It.Just.Needs.To.Be.Long.OK.But.Soon.It.Must.Be.Long.Enough.To.Exceed.That.Silly.Limit.In.SqlServerCe
     {
         public class SomeClass
         {

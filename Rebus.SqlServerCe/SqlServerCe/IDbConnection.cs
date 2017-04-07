@@ -34,7 +34,7 @@ namespace Rebus.SqlServerCe
     }
 
     /// <summary>
-    /// Represents a SQL Server column
+    /// Represents a SQL Server Compact column
     /// </summary>
     public class DbColumn
     {

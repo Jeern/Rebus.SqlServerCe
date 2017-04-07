@@ -11,11 +11,11 @@ using Rebus.Transport;
 
 namespace Rebus.SqlServerCe.Tests.Transport
 {
-    [TestFixture, Category(Categories.SqlServer)]
-    public class SqlServerTransportBasicSendReceive : BasicSendReceive<SqlTransportFactory> { }
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class SqlServerCeTransportBasicSendReceive : BasicSendReceive<SqlTransportFactory> { }
 
-    [TestFixture, Category(Categories.SqlServer)]
-    public class SqlServerTransportMessageExpiration : MessageExpiration<SqlTransportFactory> { }
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class SqlServerCeTransportMessageExpiration : MessageExpiration<SqlTransportFactory> { }
 
     public class SqlTransportFactory : ITransportFactory
     {
@@ -31,7 +31,7 @@ namespace Rebus.SqlServerCe.Tests.Transport
             var consoleLoggerFactory = new ConsoleLoggerFactory(false);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
             var asyncTaskFactory = new TplAsyncTaskFactory(consoleLoggerFactory);
-            var transport = new SqlServerTransport(connectionProvider, tableName, null, consoleLoggerFactory, asyncTaskFactory);
+            var transport = new SqlServerCeTransport(connectionProvider, tableName, null, consoleLoggerFactory, asyncTaskFactory);
 
             _disposables.Add(transport);
 
@@ -50,7 +50,7 @@ namespace Rebus.SqlServerCe.Tests.Transport
             var consoleLoggerFactory = new ConsoleLoggerFactory(false);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
             var asyncTaskFactory = new TplAsyncTaskFactory(consoleLoggerFactory);
-            var transport = new SqlServerTransport(connectionProvider, tableName, inputQueueAddress, consoleLoggerFactory, asyncTaskFactory);
+            var transport = new SqlServerCeTransport(connectionProvider, tableName, inputQueueAddress, consoleLoggerFactory, asyncTaskFactory);
             
             _disposables.Add(transport);
             

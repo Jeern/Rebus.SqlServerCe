@@ -6,12 +6,12 @@ using Rebus.Timeouts;
 
 namespace Rebus.SqlServerCe.Tests.Timeouts
 {
-    [TestFixture, Category(Categories.SqlServer)]
-    public class BasicStoreAndRetrieveOperations : BasicStoreAndRetrieveOperations<SqlServerTimeoutManagerFactory>
+    [TestFixture, Category(Categories.SqlServerCe)]
+    public class BasicStoreAndRetrieveOperations : BasicStoreAndRetrieveOperations<SqlServerCeTimeoutManagerFactory>
     {
     }
 
-    public class SqlServerTimeoutManagerFactory : ITimeoutManagerFactory
+    public class SqlServerCeTimeoutManagerFactory : ITimeoutManagerFactory
     {
         const string TableName = "RebusTimeouts";
 
@@ -19,7 +19,7 @@ namespace Rebus.SqlServerCe.Tests.Timeouts
         {
             var consoleLoggerFactory = new ConsoleLoggerFactory(true);
             var connectionProvider = new DbConnectionProvider(SqlTestHelper.ConnectionString, consoleLoggerFactory);
-            var timeoutManager = new SqlServerTimeoutManager(connectionProvider, TableName, consoleLoggerFactory);
+            var timeoutManager = new SqlServerCeTimeoutManager(connectionProvider, TableName, consoleLoggerFactory);
 
             timeoutManager.EnsureTableIsCreated();
 

@@ -14,7 +14,7 @@ using Rebus.Tests.Contracts.Utilities;
 namespace Rebus.SqlServerCe.Tests.Transport
 {
     [TestFixture]
-    public class TestSqlServerTransportCleanup : FixtureBase
+    public class TestSqlServerCeTransportCleanup : FixtureBase
     {
         BuiltinHandlerActivator _activator;
         ListLoggerFactory _loggerFactory;
@@ -31,7 +31,7 @@ namespace Rebus.SqlServerCe.Tests.Transport
 
             Configure.With(_activator)
                 .Logging(l => l.Use(_loggerFactory))
-                .Transport(t => t.UseSqlServer(SqlTestHelper.ConnectionString, "Messages", queueName))
+                .Transport(t => t.UseSqlServerCe(SqlTestHelper.ConnectionString, "Messages", queueName))
                 .Start();
         }
 

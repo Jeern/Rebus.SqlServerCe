@@ -13,14 +13,14 @@ namespace Rebus.SqlServerCe.Transport
     /// <summary>
     /// Configuration extensions for the SQL transport
     /// </summary>
-    public static class SqlServerTransportConfigurationExtensions
+    public static class SqlServerCeTransportConfigurationExtensions
     {
         /// <summary>
-        /// Configures Rebus to use SQL Server to transport messages as a one-way client (i.e. will not be able to receive any messages).
+        /// Configures Rebus to use SQL Server Compact to transport messages as a one-way client (i.e. will not be able to receive any messages).
         /// The table specified by <paramref name="tableName"/> will be used to store messages.
         /// The message table will automatically be created if it does not exist.
         /// </summary>
-        public static void UseSqlServerAsOneWayClient(this StandardConfigurer<ITransport> configurer, Func<Task<IDbConnection>> connectionFactory, string tableName)
+        public static void UseSqlServerCeAsOneWayClient(this StandardConfigurer<ITransport> configurer, Func<Task<IDbConnection>> connectionFactory, string tableName)
         {
             Configure(configurer, loggerFactory => new DbConnectionFactoryProvider(connectionFactory, loggerFactory), tableName, null);
 
@@ -28,11 +28,11 @@ namespace Rebus.SqlServerCe.Transport
         }
 
         /// <summary>
-        /// Configures Rebus to use SQL Server to transport messages as a one-way client (i.e. will not be able to receive any messages).
+        /// Configures Rebus to use SQL Server Compact to transport messages as a one-way client (i.e. will not be able to receive any messages).
         /// The table specified by <paramref name="tableName"/> will be used to store messages.
         /// The message table will automatically be created if it does not exist.
         /// </summary>
-        public static void UseSqlServerAsOneWayClient(this StandardConfigurer<ITransport> configurer, string connectionStringOrConnectionStringName, string tableName)
+        public static void UseSqlServerCeAsOneWayClient(this StandardConfigurer<ITransport> configurer, string connectionStringOrConnectionStringName, string tableName)
         {
             Configure(configurer, loggerFactory => new DbConnectionProvider(connectionStringOrConnectionStringName, loggerFactory), tableName, null);
 
@@ -40,21 +40,21 @@ namespace Rebus.SqlServerCe.Transport
         }
 
         /// <summary>
-        /// Configures Rebus to use SQL Server as its transport. The table specified by <paramref name="tableName"/> will be used to
+        /// Configures Rebus to use SQL Server Compact as its transport. The table specified by <paramref name="tableName"/> will be used to
         /// store messages, and the "queue" specified by <paramref name="inputQueueName"/> will be used when querying for messages.
         /// The message table will automatically be created if it does not exist.
         /// </summary>
-        public static void UseSqlServer(this StandardConfigurer<ITransport> configurer, Func<Task<IDbConnection>> connectionFactory, string tableName, string inputQueueName)
+        public static void UseSqlServerCe(this StandardConfigurer<ITransport> configurer, Func<Task<IDbConnection>> connectionFactory, string tableName, string inputQueueName)
         {
             Configure(configurer, loggerFactory => new DbConnectionFactoryProvider(connectionFactory, loggerFactory), tableName, inputQueueName);
         }
 
         /// <summary>
-        /// Configures Rebus to use SQL Server as its transport. The table specified by <paramref name="tableName"/> will be used to
+        /// Configures Rebus to use SQL Server Compact as its transport. The table specified by <paramref name="tableName"/> will be used to
         /// store messages, and the "queue" specified by <paramref name="inputQueueName"/> will be used when querying for messages.
         /// The message table will automatically be created if it does not exist.
         /// </summary>
-        public static void UseSqlServer(this StandardConfigurer<ITransport> configurer, string connectionStringOrConnectionStringName, string tableName, string inputQueueName)
+        public static void UseSqlServerCe(this StandardConfigurer<ITransport> configurer, string connectionStringOrConnectionStringName, string tableName, string inputQueueName)
         {
             Configure(configurer, loggerFactory => new DbConnectionProvider(connectionStringOrConnectionStringName, loggerFactory), tableName, inputQueueName);
         }
@@ -66,7 +66,7 @@ namespace Rebus.SqlServerCe.Transport
                 var rebusLoggerFactory = context.Get<IRebusLoggerFactory>();
                 var asyncTaskFactory = context.Get<IAsyncTaskFactory>();
                 var connectionProvider = connectionProviderFactory(rebusLoggerFactory);
-                var transport = new SqlServerTransport(connectionProvider, tableName, inputQueueName, rebusLoggerFactory, asyncTaskFactory);
+                var transport = new SqlServerCeTransport(connectionProvider, tableName, inputQueueName, rebusLoggerFactory, asyncTaskFactory);
                 transport.EnsureTableIsCreated();
                 return transport;
             });
@@ -87,7 +87,7 @@ namespace Rebus.SqlServerCe.Transport
 
                 if (string.IsNullOrWhiteSpace(options.ExternalTimeoutManagerAddressOrNull))
                 {
-                    options.ExternalTimeoutManagerAddressOrNull = SqlServerTransport.MagicExternalTimeoutManagerAddress;
+                    options.ExternalTimeoutManagerAddressOrNull = SqlServerCeTransport.MagicExternalTimeoutManagerAddress;
                 }
 
                 return options;

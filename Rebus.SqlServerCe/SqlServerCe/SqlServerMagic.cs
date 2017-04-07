@@ -10,7 +10,7 @@ namespace Rebus.SqlServerCe
     /// <summary>
     /// Wraps some nice extension methods for <see cref="SqlConnection"/> that makes it easy e.g. to query the schema
     /// </summary>
-    static class SqlServerMagic
+    static class SqlServerCeMagic
     {
         /// <summary>
         /// Error code that is emitted on PK violations
