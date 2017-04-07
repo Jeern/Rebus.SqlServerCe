@@ -15,7 +15,7 @@ namespace Rebus.SqlServerCe
     {
         readonly Func<Task<IDbConnection>> _connectionFactory;
         readonly ILog _log;
-
+        
         /// <summary>
         /// Uses provided SqlConnection factory as constructor for SqlConnection used. Will use <see cref="System.Data.IsolationLevel.ReadCommitted"/> by default on transactions,
         /// unless another isolation level is set with the <see cref="IsolationLevel"/> property
