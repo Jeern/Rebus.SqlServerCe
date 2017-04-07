@@ -41,17 +41,42 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\AssemblyInfo.cs" />
+    <None Include="..\SqlServerCeBinaries\sqlceca40.dll" Link="SqlServerCeNativeBinaries\sqlceca40.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\SqlServerCeBinaries\sqlcecompact40.dll" Link="SqlServerCeNativeBinaries\sqlcecompact40.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\SqlServerCeBinaries\sqlceer40EN.dll" Link="SqlServerCeNativeBinaries\sqlceer40EN.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\SqlServerCeBinaries\sqlceme40.dll" Link="SqlServerCeNativeBinaries\sqlceme40.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\SqlServerCeBinaries\sqlceqp40.dll" Link="SqlServerCeNativeBinaries\sqlceqp40.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\SqlServerCeBinaries\sqlcese40.dll" Link="SqlServerCeNativeBinaries\sqlcese40.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="rebus" Version="4.0.0-b06" />
-    <PackageReference Include="Microsoft.SqlServer.Compact" Version="4.0.8852.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Transactions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SqlServerCeNativeBinaries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.SqlServerCe">
+      <HintPath>..\SqlServerCeBinaries\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="$(ProjectDir)..\scripts\patch_assemblyinfo.cmd $(ProjectDir)" />
