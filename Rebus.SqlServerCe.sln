@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+VisualStudioVersion = 15.0.26228.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{1ABDD7C1-1F8D-402D-8692-3E4B66962DE0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{F15FAF20-858B-4634-9ABA-F0E708FDC3A8}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md
 		CONTRIBUTING.md = CONTRIBUTING.md
@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stuff", "stuff", "{1ABDD7C1
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rebus.SqlServerCe", "Rebus.SqlServerCe\Rebus.SqlServerCe.csproj", "{1E8F27DE-E81A-4B54-B6EF-ECB4107E5B66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rebus.SqlServerCe", "Rebus.SqlServerCe\Rebus.SqlServerCe.csproj", "{7C611D79-785E-4630-8916-933CAB519846}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rebus.SqlServerCe.Tests", "Rebus.SqlServerCe.Tests\Rebus.SqlServerCe.Tests.csproj", "{08A66FA7-8A4D-45AE-AADC-2FC4DA89C59F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rebus.SqlServerCe.Tests", "Rebus.SqlServerCe.Tests\Rebus.SqlServerCe.Tests.csproj", "{D35E7F0D-4C74-4C7D-9B61-DC5FA3B863C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,14 +20,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E8F27DE-E81A-4B54-B6EF-ECB4107E5B66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E8F27DE-E81A-4B54-B6EF-ECB4107E5B66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E8F27DE-E81A-4B54-B6EF-ECB4107E5B66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E8F27DE-E81A-4B54-B6EF-ECB4107E5B66}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08A66FA7-8A4D-45AE-AADC-2FC4DA89C59F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08A66FA7-8A4D-45AE-AADC-2FC4DA89C59F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08A66FA7-8A4D-45AE-AADC-2FC4DA89C59F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08A66FA7-8A4D-45AE-AADC-2FC4DA89C59F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C611D79-785E-4630-8916-933CAB519846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C611D79-785E-4630-8916-933CAB519846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C611D79-785E-4630-8916-933CAB519846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C611D79-785E-4630-8916-933CAB519846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D35E7F0D-4C74-4C7D-9B61-DC5FA3B863C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D35E7F0D-4C74-4C7D-9B61-DC5FA3B863C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D35E7F0D-4C74-4C7D-9B61-DC5FA3B863C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D35E7F0D-4C74-4C7D-9B61-DC5FA3B863C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
