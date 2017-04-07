@@ -104,100 +104,50 @@ namespace Rebus.SqlServerCe.Tests
             }
             catch (Exception exception)
             {
-                DumpWho();
-
                 throw new RebusApplicationException(exception, $"Could not execute '{sqlCommand}'");
             }
         }
 
 
-        static void DumpWho()
+
+        static void CreateDatabaseFile(string fileName, string connectionString)
+        {
+            if (!File.Exists(fileName))
+            {
+                var engine = new SqlCeEngine(connectionString);
+                engine.CreateDatabase();
+            }
+        }
+
+        static void InitializeDatabase()
         {
             try
             {
-                Console.WriteLine("Trying to dump all active connections for db {0}...", DatabaseName);
-                Console.WriteLine();
-
-                var who = ExecSpWho()
-                    .Where(kvp => kvp.ContainsKey("dbname"))
-                    .Where(kvp => kvp["dbname"].Equals(DatabaseName, StringComparison.OrdinalIgnoreCase));
-
-                Console.WriteLine(string.Join(Environment.NewLine,
-                    who.Select(d => string.Join(", ", d.Select(kvp => $"{kvp.Key} = {kvp.Value}")))));
-
-                Console.WriteLine();
+                CreateDatabaseDirectory(DatabaseDirectory);
+                CreateDatabaseFile(DatabaseFile, GetConnectionStringForDatabase(DatabaseFile));
             }
             catch (Exception exception)
             {
-                Console.WriteLine("Could not execute sp_who: {0}", exception);
+                throw new RebusApplicationException(exception, $"Could not initialize database '{DatabaseFile}'");
             }
         }
 
-        public static IEnumerable<IDictionary<string, string>> ExecSpWho()
+        private static void CreateDatabaseDirectory(string databaseDirectory)
         {
-            using (var connection = new SqlCeConnection(ConnectionString))
+            if (!Directory.Exists(databaseDirectory))
             {
-                connection.Open();
-
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "sp_who;";
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        var rows = new List<Dictionary<string, string>>();
-
-                        while (reader.Read())
-                        {
-                            rows.Add(Enumerable.Range(0, reader.FieldCount)
-                                .Select(field => new
-                                {
-                                    ColumnName = reader.GetName(field),
-                                    Value = (reader.GetValue(field) ?? "").ToString().Trim()
-                                })
-                                .ToDictionary(a => a.ColumnName, a => a.Value));
-                        }
-
-                        return rows;
-                    }
-                }
+                Directory.CreateDirectory(databaseDirectory);
             }
         }
 
-        static void InitializeDatabase(string databaseName)
-        {
-            try
-            {
-                var masterConnectionString = GetConnectionStringForDatabase("master");
-
-                using (var connection = new SqlCeConnection(masterConnectionString))
-                {
-                    connection.Open();
-
-                    if (connection.GetDatabaseNames().Contains(databaseName, StringComparer.OrdinalIgnoreCase)) return;
-
-                    Console.WriteLine("Creating database {0}", databaseName);
-
-                    using (var command = connection.CreateCommand())
-                    {
-                        command.CommandText = $"CREATE DATABASE [{databaseName}]";
-                        command.ExecuteNonQuery();
-                    }
-                }
-
-                _databaseHasBeenInitialized = true;
-
-            }
-            catch (Exception exception)
-            {
-                throw new RebusApplicationException(exception, $"Could not initialize database '{databaseName}'");
-            }
-        }
-
-        static string GetConnectionStringForDatabase(string databaseName)
+        static string GetConnectionStringForDatabase(string fileName)
         {
             return Environment.GetEnvironmentVariable("REBUS_SqlServerCe")
-                   ?? $"server=.; database={databaseName}; trusted_connection=true;";
+                   ?? $"Data Source='{fileName}'";
         }
+
+        static string DatabaseDirectory => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database");
+        static string DatabaseFile => Path.Combine(DatabaseDirectory, FileName);
+        static string FileName => $"rebus2_test_{TestConfig.Suffix}".TrimEnd('_') + ".sdf";
     }
 }
