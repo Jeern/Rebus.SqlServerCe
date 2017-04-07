@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SqlServerCe;
+using System.IO;
 using System.Linq;
 using Rebus.Exceptions;
 using Rebus.Tests.Contracts;
@@ -10,8 +11,6 @@ namespace Rebus.SqlServerCe.Tests
 {
     public class SqlTestHelper
     {
-        static bool _databaseHasBeenInitialized;
-
         static string _connectionString;
 
         public static string ConnectionString
@@ -19,26 +18,18 @@ namespace Rebus.SqlServerCe.Tests
             get
             {
                 if (_connectionString != null)
-                {
                     return _connectionString;
-                }
 
-                var databaseName = DatabaseName;
+                InitializeDatabase();
 
-                if (!_databaseHasBeenInitialized)
-                {
-                    InitializeDatabase(databaseName);
-                }
+                Console.WriteLine("Using SQL Compact database {0}", DatabaseFile);
 
-                Console.WriteLine("Using local SQL database {0}", databaseName);
-
-                _connectionString = GetConnectionStringForDatabase(databaseName);
+                _connectionString = GetConnectionStringForDatabase(DatabaseFile);
 
                 return _connectionString;
             }
         }
 
-        public static string DatabaseName => $"rebus2_test_{TestConfig.Suffix}".TrimEnd('_');
 
         public static void Execute(string sql)
         {
