@@ -57,8 +57,8 @@ namespace Rebus.SqlServerCe.Timeouts
     CREATE TABLE {_tableName.Name} (
         [id] [int] IDENTITY(1,1) NOT NULL,
 	    [due_time] [datetime](7) NOT NULL,
-	    [headers] [ntext] NOT NULL,
-	    [body] [ntext] NOT NULL,
+	    [headers] [image] NOT NULL,
+	    [body] [image] NOT NULL,
         CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY NONCLUSTERED 
         (
 	        [id] ASC
@@ -99,8 +99,8 @@ namespace Rebus.SqlServerCe.Timeouts
                         $@"INSERT INTO {_tableName.Name} ([due_time], [headers], [body]) VALUES (@due_time, @headers, @body)";
 
                     command.Parameters.Add("due_time", SqlDbType.DateTime).Value = approximateDueTime.UtcDateTime;
-                    command.Parameters.Add("headers", SqlDbType.NVarChar).Value = headersString;
-                    command.Parameters.Add("body", SqlDbType.NVarChar).Value = body;
+                    command.Parameters.Add("headers", SqlDbType.Image).Value = headersString;
+                    command.Parameters.Add("body", SqlDbType.Image).Value = body;
 
                     await command.ExecuteNonQueryAsync();
                 }
