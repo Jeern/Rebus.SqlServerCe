@@ -200,6 +200,9 @@ CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([recipient], [p
 
                 TransportMessage receivedTransportMessage;
 
+
+                //VI ER HER - DENNE COMMAND SKAL OMSKRIVES TIL MULTIPLE
+
                 using (var selectCommand = connection.CreateCommand())
                 {
                     selectCommand.CommandText = $@"
@@ -244,6 +247,10 @@ CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([recipient], [p
                     {
                         // ADO.NET does not throw the right exception when the task gets cancelled - therefore we need to do this:
                         throw new TaskCanceledException("Receive operation was cancelled", exception);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
                     }
                 }
 
