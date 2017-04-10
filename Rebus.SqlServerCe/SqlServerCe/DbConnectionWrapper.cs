@@ -51,7 +51,7 @@ namespace Rebus.SqlServerCe
             {
                 return _connection.GetTableNames(_currentTransaction);
             }
-            catch (SqlException exception)
+            catch (SqlCeException exception)
             {
                 throw new RebusApplicationException(exception, "Could not get table names");
             }
@@ -69,7 +69,7 @@ namespace Rebus.SqlServerCe
                     .Select(kvp => new DbColumn(kvp.Key, kvp.Value))
                     .ToList();
             }
-            catch (SqlException exception)
+            catch (SqlCeException exception)
             {
                 throw new RebusApplicationException(exception, "Could not get table names");
             }
