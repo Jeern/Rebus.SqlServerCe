@@ -25,14 +25,14 @@ namespace Rebus.SqlServerCe.Extensions
             {
                 command.ExecuteNonQuery();
             }
-            catch (SqlException exception) when (exception.Number == tableAlreadyExists)
+            catch (SqlCeException exception) when (exception.NativeError == tableAlreadyExists)
             {
                 // table already exists
                 return false;
             }
-            catch (SqlException exception)
+            catch (SqlCeException exception)
             {
-                Console.WriteLine(exception.Number);
+                Console.WriteLine(exception.NativeError);
                 return false;
             }
             return true;
@@ -51,14 +51,14 @@ namespace Rebus.SqlServerCe.Extensions
             {
                 await command.ExecuteNonQueryAsync();
             }
-            catch (SqlException exception) when (exception.Number == tableAlreadyExists)
+            catch (SqlCeException exception) when (exception.NativeError == tableAlreadyExists)
             {
                 // table already exists
                 return false;
             }
-            catch (SqlException exception) 
+            catch (SqlCeException exception) 
             {
-                Console.WriteLine(exception.Number);
+                Console.WriteLine(exception.NativeError);
                 return false;
             }
             return true;

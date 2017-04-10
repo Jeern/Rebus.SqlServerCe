@@ -85,9 +85,9 @@ namespace Rebus.SqlServerCe.Tests
                             command.ExecuteNonQuery();
                         }
                     }
-                    catch (SqlException exception)
+                    catch (SqlCeException exception)
                     {
-                        if (exception.Number == SqlServerCeMagic.ObjectDoesNotExistOrNoPermission) return;
+                        if (exception.NativeError == SqlServerCeMagic.ObjectDoesNotExistOrNoPermission) return;
 
                         throw;
                     }
