@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Rebus.SqlServerCe.Tests.Assumptions
 {
     [TestFixture]
-    public class TestSpWho
+    public class TestTable
     {
         [Test]
         public void DropTableThatDoesNotExist()
