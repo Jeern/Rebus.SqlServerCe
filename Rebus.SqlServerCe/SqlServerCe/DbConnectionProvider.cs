@@ -12,8 +12,7 @@ using IsolationLevel = System.Data.IsolationLevel;
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Implementation of <see cref="IDbConnectionProvider"/> that ensures that MARS (multiple active result sets) is enabled on the
-    /// given connection string (possibly by enabling it by itself)
+    /// Implementation of <see cref="IDbConnectionProvider"/>
     /// </summary>
     public class DbConnectionProvider : IDbConnectionProvider
     {
@@ -31,27 +30,9 @@ namespace Rebus.SqlServerCe
 
             _log = rebusLoggerFactory.GetLogger<DbConnectionProvider>();
 
-            var connectionString = GetConnectionString(connectionStringOrConnectionStringName);
-
-            _connectionString = EnsureMarsIsEnabled(connectionString);
+            _connectionString = GetConnectionString(connectionStringOrConnectionStringName);
 
             IsolationLevel = IsolationLevel.ReadCommitted;
-        }
-
-        string EnsureMarsIsEnabled(string connectionString)
-        {
-            var connectionStringSettings = connectionString.Split(new [] {";"}, StringSplitOptions.RemoveEmptyEntries)
-                .Select(kvp => kvp.Split(new [] {"="}, StringSplitOptions.RemoveEmptyEntries))
-                .ToDictionary(kvp => kvp[0], kvp => string.Join("=", kvp.Skip(1)), StringComparer.OrdinalIgnoreCase);
-
-            if (!connectionStringSettings.ContainsKey("MultipleActiveResultSets"))
-            {
-                _log.Info("Supplied connection string will be modified to enable MARS");
-
-                connectionStringSettings["MultipleActiveResultSets"] = "True";
-            }
-
-            return string.Join("; ", connectionStringSettings.Select(kvp => $"{kvp.Key}={kvp.Value}"));
         }
 
         static string GetConnectionString(string connectionStringOrConnectionStringName)

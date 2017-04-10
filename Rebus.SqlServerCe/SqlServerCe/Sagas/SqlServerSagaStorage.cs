@@ -11,6 +11,7 @@ using Rebus.Exceptions;
 using Rebus.Logging;
 using Rebus.Sagas;
 using Rebus.Serialization;
+using Rebus.SqlServerCe.Extensions;
 
 namespace Rebus.SqlServerCe.Sagas
 {
@@ -108,13 +109,6 @@ namespace Rebus.SqlServerCe.Sagas
                 var sagaIdIndexName = $"IX_{_indexTableName.Schema}_{_indexTableName.Name}_saga_id";
 
                 await ExecuteCommands(connection, $@"
-
-IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = '{_dataTableName.Schema}')
-	EXEC('CREATE SCHEMA {_dataTableName.Schema}')
-
-----
-
-IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_dataTableName.Schema}' AND TABLE_NAME = '{_dataTableName.Name}')
     CREATE TABLE {_dataTableName.QualifiedName} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
@@ -127,12 +121,6 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_d
 
 ----
 
-IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = '{_indexTableName.Schema}')
-	EXEC('CREATE SCHEMA {_indexTableName.Schema}')
-
-----
-
-IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_indexTableName.Schema}' AND TABLE_NAME = '{_indexTableName.Name}')
     CREATE TABLE {_indexTableName.QualifiedName} (
 	    [saga_type] [nvarchar](40) NOT NULL,
 	    [key] [nvarchar](200) NOT NULL,
@@ -148,7 +136,6 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_i
 
 ----
 
-IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = '{sagaIdIndexName}')
     CREATE NONCLUSTERED INDEX [{sagaIdIndexName}] ON {_indexTableName.QualifiedName}
     (
 	    [saga_id] ASC
@@ -180,7 +167,7 @@ ALTER TABLE {_indexTableName.QualifiedName} CHECK CONSTRAINT [FK_{_dataTableName
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandText = commandText;
-                        await command.ExecuteNonQueryAsync();
+                        await command.TryExecuteAsync();
                     }
                 }
                 catch (Exception exception)

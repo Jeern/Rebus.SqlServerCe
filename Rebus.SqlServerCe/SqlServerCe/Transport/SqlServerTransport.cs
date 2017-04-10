@@ -132,13 +132,7 @@ namespace Rebus.SqlServerCe.Transport
                 var receiveIndexName = $"IDX_RECEIVE_{_tableName.Schema}_{_tableName.Name}";
                 var expirationIndexName = $"IDX_EXPIRATION_{_tableName.Schema}_{_tableName.Name}";
 
-                ExecuteCommands(connection, $@"
-IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = '{_tableName.Schema}')
-	EXEC('CREATE SCHEMA [{_tableName.Schema}]')
-
-----
-
-IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_tableName.Schema}' AND TABLE_NAME = '{_tableName.Name}')
+                TryExecuteCommands(connection, $@"
     CREATE TABLE {_tableName.QualifiedName}
     (
 	    [id] [bigint] IDENTITY(1,1) NOT NULL,
@@ -158,7 +152,6 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_t
 
 ----
 
-IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = '{receiveIndexName}')
     CREATE NONCLUSTERED INDEX [{receiveIndexName}] ON {_tableName.QualifiedName}
     (
 	    [recipient] ASC,
@@ -170,7 +163,6 @@ IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = '{receiveIndexName}')
 
 ----
 
-IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = '{expirationIndexName}')
     CREATE NONCLUSTERED INDEX [{expirationIndexName}] ON {_tableName.QualifiedName}
     (
         [expiration] ASC
@@ -182,7 +174,7 @@ IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = '{expirationIndexName}')
             }
         }
 
-        static void ExecuteCommands(IDbConnection connection, string sqlCommands)
+        static void TryExecuteCommands(IDbConnection connection, string sqlCommands)
         {
             foreach (var sqlCommand in sqlCommands.Split(new[] {"----"}, StringSplitOptions.RemoveEmptyEntries))
             {

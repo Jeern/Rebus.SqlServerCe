@@ -11,6 +11,7 @@ using Rebus.DataBus;
 using Rebus.Exceptions;
 using Rebus.Logging;
 using Rebus.Serialization;
+using Rebus.SqlServerCe.Extensions;
 using Rebus.Time;
 
 namespace Rebus.SqlServerCe.DataBus
@@ -64,12 +65,6 @@ namespace Rebus.SqlServerCe.DataBus
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = '{_tableName.Schema}')
-	EXEC('CREATE SCHEMA {_tableName.Schema}')
-
-----
-
-IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_tableName.Schema}' AND TABLE_NAME = '{_tableName.Name}')
     CREATE TABLE {_tableName.QualifiedName} (
         [Id] NVARCHAR(200),
         [Meta] VARBINARY(MAX),
@@ -78,17 +73,8 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_t
     );
 
 ";
-                    const int tableAlreadyExists = 2714;
-
-                    try
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    catch (SqlException exception) when (exception.Number == tableAlreadyExists)
-                    {
-                        // table already exists - just quit now
-                        return;
-                    }
+                    if (!command.TryExecute())
+                        return; // table already exists - just quit now
                 }
 
                 await connection.Complete();

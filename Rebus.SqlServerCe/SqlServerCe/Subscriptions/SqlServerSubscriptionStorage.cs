@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Rebus.Bus;
 using Rebus.Exceptions;
 using Rebus.Logging;
+using Rebus.SqlServerCe.Extensions;
 using Rebus.Subscriptions;
 
 namespace Rebus.SqlServerCe.Subscriptions
@@ -106,12 +107,6 @@ WHERE
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = '{_tableName.Schema}')
-	EXEC('CREATE SCHEMA {_tableName.Schema}')
-
-----
-
-IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_tableName.Schema}' AND TABLE_NAME = '{_tableName.Name}')
     CREATE TABLE {_tableName.QualifiedName} (
 	    [topic] [nvarchar]({_topicLength}) NOT NULL,
 	    [address] [nvarchar]({_addressLength}) NOT NULL,
@@ -122,7 +117,7 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_t
         )
     )
 ";
-                    command.ExecuteNonQuery();
+                    command.TryExecute();
                 }
 
                 connection.Complete();
@@ -169,14 +164,12 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_t
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-IF NOT EXISTS (SELECT * FROM {_tableName.QualifiedName} WHERE [topic] = @topic AND [address] = @address)
-BEGIN
     INSERT INTO {_tableName.QualifiedName} ([topic], [address]) VALUES (@topic, @address)
-END";
+";
                     command.Parameters.Add("topic", SqlDbType.NVarChar, _topicLength).Value = topic;
                     command.Parameters.Add("address", SqlDbType.NVarChar, _addressLength).Value = subscriberAddress;
 
-                    await command.ExecuteNonQueryAsync();
+                    await command.TryExecuteAsync();
                 }
 
                 await connection.Complete();

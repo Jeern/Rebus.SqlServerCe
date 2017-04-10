@@ -7,6 +7,7 @@ using Rebus.Auditing.Sagas;
 using Rebus.Logging;
 using Rebus.Sagas;
 using Rebus.Serialization;
+using Rebus.SqlServerCe.Extensions;
 
 namespace Rebus.SqlServerCe.Sagas
 {
@@ -55,12 +56,6 @@ namespace Rebus.SqlServerCe.Sagas
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = '{_tableName.Schema}')
-	EXEC('CREATE SCHEMA {_tableName.Schema}')
-
-----
-
-IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_tableName.Schema}' AND TABLE_NAME = '{_tableName.Name}')
     CREATE TABLE {_tableName.QualifiedName} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
@@ -74,7 +69,7 @@ IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{_t
     )
 
 ";
-                    command.ExecuteNonQuery();
+                    command.TryExecute();
                 }
 
                 connection.Complete();

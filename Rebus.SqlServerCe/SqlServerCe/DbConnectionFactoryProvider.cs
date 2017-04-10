@@ -8,8 +8,7 @@ using IsolationLevel = System.Data.IsolationLevel;
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Implementation of <see cref="IDbConnectionProvider"/> that ensures that MARS (multiple active result sets) is enabled on the
-    /// given connection string (possibly by enabling it by itself)
+    /// Implementation of <see cref="IDbConnectionProvider"/> 
     /// </summary>
     public class DbConnectionFactoryProvider : IDbConnectionProvider
     {
