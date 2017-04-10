@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlServerCe;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -12,6 +13,7 @@ using Rebus.Extensions;
 using Rebus.Logging;
 using Rebus.Messages;
 using Rebus.Serialization;
+using Rebus.SqlServerCe.Extensions;
 using Rebus.Threading;
 using Rebus.Time;
 using Rebus.Transport;
@@ -109,7 +111,7 @@ namespace Rebus.SqlServerCe.Transport
             {
                 CreateSchema();
             }
-            catch (SqlException exception)
+            catch (SqlCeException exception)
             {
                 throw new RebusApplicationException(exception, $"Error attempting to initialize SQL transport schema with mesages table {_tableName.Name}");
             }
