@@ -37,7 +37,7 @@ namespace Rebus.SqlServerCe.DataBus
             if (tableName == null) throw new ArgumentNullException(nameof(tableName));
             if (rebusLoggerFactory == null) throw new ArgumentNullException(nameof(rebusLoggerFactory));
             _connectionProvider = connectionProvider;
-            _tableName = TableName.Parse(tableName);
+            _tableName = new TableName(tableName);
             _ensureTableIsCreated = ensureTableIsCreated;
             _log = rebusLoggerFactory.GetLogger<SqlServerCeDataBusStorage>();
         }

@@ -9,7 +9,7 @@ using System.Linq;
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Wraps some nice extension methods for <see cref="SqlCeConnection"/> that makes it easy e.g. to query the schema
+    /// Wraps some nice extension methods for <see cref="SqlCeConnection"/> that makes it easy to query etc
     /// </summary>
     static class SqlServerCeMagic
     {

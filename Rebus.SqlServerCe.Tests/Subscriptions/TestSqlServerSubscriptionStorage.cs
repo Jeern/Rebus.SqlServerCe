@@ -72,7 +72,7 @@ namespace Rebus.SqlServerCe.Tests.Subscriptions
 
             if (createCustomSchema)
             {
-                var tableName = TableName.Parse("Subscriptions");
+                var tableName = new TableName("Subscriptions");
 
                 SqlTestHelper.Execute($@"
 

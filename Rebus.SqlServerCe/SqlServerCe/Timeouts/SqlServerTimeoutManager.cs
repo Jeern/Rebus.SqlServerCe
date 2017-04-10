@@ -31,7 +31,7 @@ namespace Rebus.SqlServerCe.Timeouts
             if (rebusLoggerFactory == null) throw new ArgumentNullException(nameof(rebusLoggerFactory));
 
             _connectionProvider = connectionProvider;
-            _tableName = TableName.Parse(tableName);
+            _tableName = new TableName(tableName);
             _log = rebusLoggerFactory.GetLogger<SqlServerCeTimeoutManager>();
         }
 

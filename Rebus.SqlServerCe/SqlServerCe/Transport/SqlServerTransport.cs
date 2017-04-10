@@ -64,7 +64,7 @@ namespace Rebus.SqlServerCe.Transport
             if (asyncTaskFactory == null) throw new ArgumentNullException(nameof(asyncTaskFactory));
 
             _connectionProvider = connectionProvider;
-            _tableName = TableName.Parse(tableName);
+            _tableName = new TableName(tableName);
             _inputQueueName = inputQueueName;
             _log = rebusLoggerFactory.GetLogger<SqlServerCeTransport>();
 

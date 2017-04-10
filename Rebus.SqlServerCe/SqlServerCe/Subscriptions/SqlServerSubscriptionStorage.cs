@@ -38,7 +38,7 @@ namespace Rebus.SqlServerCe.Subscriptions
 
             _log = rebusLoggerFactory.GetLogger<SqlServerCeSubscriptionStorage>();
             _connectionProvider = connectionProvider;
-            _tableName = TableName.Parse(tableName);
+            _tableName = new TableName(tableName);
         }
 
         /// <summary>

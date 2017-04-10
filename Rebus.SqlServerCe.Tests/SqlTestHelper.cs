@@ -47,7 +47,7 @@ namespace Rebus.SqlServerCe.Tests
 
         public static void DropTable(string tableName)
         {
-            var table = TableName.Parse(tableName);
+            var table = new TableName(tableName);
             DropObject($"DROP TABLE {table.Name}", connection =>
             {
                 var tableNames = connection.GetTableNames();

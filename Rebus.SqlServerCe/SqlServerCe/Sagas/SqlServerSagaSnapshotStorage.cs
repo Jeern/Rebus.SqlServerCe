@@ -34,7 +34,7 @@ namespace Rebus.SqlServerCe.Sagas
 
             _log = rebusLoggerFactory.GetLogger<SqlServerCeSagaSnapshotStorage>();
             _connectionProvider = connectionProvider;
-            _tableName = TableName.Parse(tableName);
+            _tableName = new TableName(tableName);
         }
 
         /// <summary>

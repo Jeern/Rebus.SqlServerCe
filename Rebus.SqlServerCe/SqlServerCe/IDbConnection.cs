@@ -19,7 +19,7 @@ namespace Rebus.SqlServerCe
         SqlCeCommand CreateCommand();
 
         /// <summary>
-        /// Gets the names of all the tables in the current database for the current schema
+        /// Gets the names of all the tables in the current database 
         /// </summary>
         IEnumerable<TableName> GetTableNames();
         
