@@ -132,7 +132,7 @@ namespace Rebus.SqlServerCe.Transport
                 var receiveIndexName = $"IDX_RECEIVE_{_tableName.Name}";
                 var expirationIndexName = $"IDX_EXPIRATION_{_tableName.Name}";
 
-                TryExecuteCommands(connection, $@"
+                connection.TryExecuteCommands($@"
     CREATE TABLE {_tableName.Name}
     (
 	    [id] [bigint] IDENTITY(1,1) NOT NULL,
@@ -172,32 +172,6 @@ CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([recipient], [p
             }
         }
 
-        static void TryExecuteCommands(IDbConnection connection, string sqlCommands)
-        {
-            foreach (var sqlCommand in sqlCommands.Split(new[] {"----"}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = sqlCommand;
-
-                    Execute(command);
-                }
-            }
-        }
-
-        static void Execute(IDbCommand command)
-        {
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (SqlException exception)
-            {
-                throw new RebusApplicationException(exception, $@"Error executing SQL command
-{command.CommandText}
-");
-            }
-        }
 
         /// <summary>
         /// Sends the given transport message to the specified logical destination address by adding it to the messages table.
