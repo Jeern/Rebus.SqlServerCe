@@ -25,23 +25,18 @@ namespace Rebus.SqlServerCe.Tests.Integration
             SqlTestHelper.DropTable(TableName);
 
             SqlTestHelper.Execute(@"
-
 CREATE TABLE [Messages](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[recipient] [nvarchar](200) NOT NULL,
 	[priority] [int] NOT NULL,
 	[expiration] [datetime](7) NOT NULL,
 	[visible] [datetime](7) NOT NULL,
-	[headers] [ntext] NOT NULL,
-	[body] [ntext] NOT NULL,
-	CONSTRAINT [PK_Messages] PRIMARY KEY CLUSTERED 
-	(
-		[recipient] ASC,
-		[priority] ASC,
-		[id] ASC
-	)
-)
+	[headers] [image] NOT NULL,
+	[body] [image] NOT NULL
+)");
 
+            SqlTestHelper.Execute(@"
+CREATE UNIQUE INDEX[PK_Messages] ON [Messages]([recipient], [priority], [id])
 ");
 
         }

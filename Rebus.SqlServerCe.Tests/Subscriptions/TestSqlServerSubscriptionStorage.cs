@@ -75,18 +75,17 @@ namespace Rebus.SqlServerCe.Tests.Subscriptions
                 var tableName = new TableName("Subscriptions");
 
                 SqlTestHelper.Execute($@"
-
     CREATE TABLE {tableName.Name} (
 	    [topic] [nvarchar](350) NOT NULL,
-	    [address] [nvarchar](50) NOT NULL,
-        CONSTRAINT [PK_{tableName.Name}] PRIMARY KEY CLUSTERED 
-        (
-	        [topic] ASC,
-	        [address] ASC
-        )
+	    [address] [nvarchar](50) NOT NULL
     )
 
 ");
+
+                SqlTestHelper.Execute($@"
+CREATE UNIQUE INDEX[PK_{tableName.Name}] ON {tableName.Name} ([topic], [address])
+");
+                
             }
             else
             {

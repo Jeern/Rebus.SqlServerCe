@@ -103,22 +103,18 @@ WHERE
 
                 _log.Info("Table {tableName} does not exist - it will be created now", _tableName.Name);
 
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = $@"
+                connection.TryExecuteCommands($@"
     CREATE TABLE {_tableName.Name} (
 	    [topic] [nvarchar]({_topicLength}) NOT NULL,
-	    [address] [nvarchar]({_addressLength}) NOT NULL,
-        CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
-        (
-	        [topic] ASC,
-	        [address] ASC
-        )
+	    [address] [nvarchar]({_addressLength}) NOT NULL
     )
-";
-                    command.TryExecute();
-                }
 
+----
+
+CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([topic], [address])
+
+");
+  
                 connection.Complete();
             }
         }

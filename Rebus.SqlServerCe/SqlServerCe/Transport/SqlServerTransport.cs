@@ -140,15 +140,13 @@ namespace Rebus.SqlServerCe.Transport
 	    [priority] [int] NOT NULL,
         [expiration] [datetime] NOT NULL,
         [visible] [datetime] NOT NULL,
-	    [headers] [ntext] NOT NULL,
-	    [body] [ntext] NOT NULL,
-        CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
-        (
-	        [recipient] ASC,
-	        [priority] ASC,
-	        [id] ASC
-        )
+	    [headers] [image] NOT NULL,
+	    [body] [image] NOT NULL
     )
+
+----
+
+CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([recipient], [priority], [id])
 
 ----
 

@@ -53,24 +53,20 @@ namespace Rebus.SqlServerCe.Sagas
 
                 _log.Info("Table {tableName} does not exist - it will be created now", _tableName.Name);
 
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = $@"
+                connection.TryExecuteCommands($@"
     CREATE TABLE {_tableName.Name} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
 	    [data] [ntext] NOT NULL,
-	    [metadata] [ntext] NOT NULL,
-        CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
-        (
-	        [id] ASC,
-            [revision] ASC
-        )
+	    [metadata] [ntext] NOT NULL
     )
 
-";
-                    command.TryExecute();
-                }
+----
+
+CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([id], [revision])
+
+");
+
 
                 connection.Complete();
             }

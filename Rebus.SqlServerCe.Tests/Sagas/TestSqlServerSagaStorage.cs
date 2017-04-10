@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Rebus.Logging;
 using Rebus.Sagas;
+using Rebus.SqlServerCe.Extensions;
 using Rebus.SqlServerCe.Sagas;
 using Rebus.Tests.Contracts;
 
@@ -72,49 +73,38 @@ namespace Rebus.SqlServerCe.Tests.Sagas
         {
             var createTableOldSchema =
                 $@"
-
 CREATE TABLE [{_dataTableName}](
 	[id] [uniqueidentifier] NOT NULL,
 	[revision] [int] NOT NULL,
-	[data] [ntext] NOT NULL,
-	 CONSTRAINT [PK_{_dataTableName}] PRIMARY KEY CLUSTERED 
-	(
-		[id] ASC
-	)
+	[data] [ntext] NOT NULL
 )
+
+----
+
+ALTER TABLE {_dataTableName} ADD CONSTRAINT [PK_{_dataTableName}] PRIMARY KEY ([id])
 
 ";
 
             var createTableOldSchema2 =
                 $@"
-
 CREATE TABLE [{_indexTableName}](
 	[saga_type] [nvarchar](40) NOT NULL,
 	[key] [nvarchar](200) NOT NULL,
 	[value] [nvarchar](200) NOT NULL,
-	[saga_id] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_{_indexTableName}] PRIMARY KEY CLUSTERED 
- (
-	[key] ASC,
-	[value] ASC,
-	[saga_type] ASC
- ))
+	[saga_id] [uniqueidentifier] NOT NULL
+)
+
+----
+
+CREATE UNIQUE INDEX [PK_{_indexTableName}] ON {_indexTableName} ([key], [value], [saga_type])
 ";
 
             Console.WriteLine($"Creating tables {_dataTableName} and {_indexTableName}");
 
             using (var connection = await _connectionProvider.GetConnection())
             {
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = createTableOldSchema;
-                    command.ExecuteNonQuery();
-                }
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = createTableOldSchema2;
-                    command.ExecuteNonQuery();
-                }
+                connection.TryExecuteCommands(createTableOldSchema);
+                connection.TryExecuteCommands(createTableOldSchema2);
 
                 await connection.Complete();
             }

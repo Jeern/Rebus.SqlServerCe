@@ -108,16 +108,16 @@ namespace Rebus.SqlServerCe.Sagas
 
                 var sagaIdIndexName = $"IX_{_indexTableName.Name}_saga_id";
 
-                await ExecuteCommands(connection, $@"
+                await connection.TryExecuteCommandsAsync($@"
     CREATE TABLE {_dataTableName.Name} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
-	    [data] [ntext] NOT NULL,
-        CONSTRAINT [PK_{_dataTableName.Name}] PRIMARY KEY CLUSTERED 
-        (
-	        [id] ASC
-        )
+	    [data] [ntext] NOT NULL
     )
+
+----
+
+ALTER TABLE {_dataTableName.Name} ADD CONSTRAINT [PK_{_dataTableName.Name}] PRIMARY KEY ([id])
 
 ----
 
@@ -125,20 +125,18 @@ namespace Rebus.SqlServerCe.Sagas
 	    [saga_type] [nvarchar](40) NOT NULL,
 	    [key] [nvarchar](200) NOT NULL,
 	    [value] [nvarchar](200) NOT NULL,
-	    [saga_id] [uniqueidentifier] NOT NULL,
-        CONSTRAINT [PK_{_indexTableName.Name}] PRIMARY KEY CLUSTERED 
-        (
-	        [key] ASC,
-	        [value] ASC,
-	        [saga_type] ASC
-        )
+	    [saga_id] [uniqueidentifier] NOT NULL
     )
 
 ----
 
-    CREATE NONCLUSTERED INDEX [{sagaIdIndexName}] ON {_indexTableName.Name}
+CREATE UNIQUE INDEX [PK_{_indexTableName.Name}] ON {_indexTableName.Name} ([key], [value], [saga_type])
+
+----
+
+    CREATE INDEX [{sagaIdIndexName}] ON {_indexTableName.Name}
     (
-	    [saga_id] ASC
+	    [saga_id] 
     )
 
 ----
@@ -156,28 +154,6 @@ ALTER TABLE {_indexTableName.Name} CHECK CONSTRAINT [FK_{_dataTableName.Name}_id
 
                 await connection.Complete();
             }
-        }
-
-        async Task ExecuteCommands(IDbConnection connection, string sqlCommands)
-        {
-            foreach (var commandText in sqlCommands.Split(new[] {"----"}, StringSplitOptions.RemoveEmptyEntries))
-            {
-                try
-                {
-                    using (var command = connection.CreateCommand())
-                    {
-                        command.CommandText = commandText;
-                        await command.TryExecuteAsync();
-                    }
-                }
-                catch (Exception exception)
-                {
-                    throw new RebusApplicationException(exception, $@"Could not execute SQL:
-
-{commandText}");
-                }
-            }
-            
         }
 
 
@@ -276,9 +252,9 @@ WHERE [index].[saga_type] = @saga_type
                     {
                         await command.ExecuteNonQueryAsync();
                     }
-                    catch (SqlException sqlException)
+                    catch (SqlCeException sqlException)
                     {
-                        if (sqlException.Number == SqlServerCeMagic.PrimaryKeyViolationNumber)
+                        if (sqlException.NativeError == SqlServerCeMagic.PrimaryKeyViolationNumber)
                         {
                             throw new ConcurrencyException($"An exception occurred while attempting to insert saga data with ID {sagaData.Id}");
                         }
@@ -396,11 +372,11 @@ UPDATE {_dataTableName.Name}
         {
             if (_oldFormatDataTable)
             {
-                command.Parameters.Add("data", SqlDbType.NVarChar).Value = data;
+                command.Parameters.Add("data", SqlDbType.NText).Value = data;
             }
             else
             {
-                command.Parameters.Add("data", SqlDbType.NVarChar).Value = JsonTextEncoding.GetBytes(data);
+                command.Parameters.Add("data", SqlDbType.NText).Value = JsonTextEncoding.GetBytes(data);
             }
         }
 
@@ -469,9 +445,9 @@ VALUES
                 {
                     await command.ExecuteNonQueryAsync();
                 }
-                catch (SqlException sqlException)
+                catch (SqlCeException sqlException)
                 {
-                    if (sqlException.Number == SqlServerCeMagic.PrimaryKeyViolationNumber)
+                    if (sqlException.NativeError == SqlServerCeMagic.PrimaryKeyViolationNumber)
                     {
                         throw new ConcurrencyException($"Could not update index for saga with ID {sagaData.Id} because of a PK violation - there must already exist a saga instance that uses one of the following correlation properties: {string.Join(", ", propertiesToIndexList.Select(p => $"{p.Key}='{p.Value}'"))}");
                     }
