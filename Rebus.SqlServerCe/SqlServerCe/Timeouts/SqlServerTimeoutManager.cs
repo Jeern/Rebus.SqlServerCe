@@ -57,8 +57,8 @@ namespace Rebus.SqlServerCe.Timeouts
     CREATE TABLE {_tableName.Name} (
         [id] [int] IDENTITY(1,1) NOT NULL,
 	    [due_time] [datetime](7) NOT NULL,
-	    [headers] [nvarchar](MAX) NOT NULL,
-	    [body] [varbinary](MAX) NOT NULL,
+	    [headers] [ntext] NOT NULL,
+	    [body] [ntext] NOT NULL,
         CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY NONCLUSTERED 
         (
 	        [id] ASC
@@ -100,7 +100,7 @@ namespace Rebus.SqlServerCe.Timeouts
 
                     command.Parameters.Add("due_time", SqlDbType.DateTime).Value = approximateDueTime.UtcDateTime;
                     command.Parameters.Add("headers", SqlDbType.NVarChar).Value = headersString;
-                    command.Parameters.Add("body", SqlDbType.VarBinary).Value = body;
+                    command.Parameters.Add("body", SqlDbType.NVarChar).Value = body;
 
                     await command.ExecuteNonQueryAsync();
                 }

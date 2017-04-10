@@ -140,8 +140,8 @@ namespace Rebus.SqlServerCe.Transport
 	    [priority] [int] NOT NULL,
         [expiration] [datetime] NOT NULL,
         [visible] [datetime] NOT NULL,
-	    [headers] [varbinary](max) NOT NULL,
-	    [body] [varbinary](max) NOT NULL,
+	    [headers] [ntext] NOT NULL,
+	    [body] [ntext] NOT NULL,
         CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
         (
 	        [recipient] ASC,
@@ -323,8 +323,8 @@ VALUES
                 var serializedHeaders = HeaderSerializer.Serialize(headers);
 
                 command.Parameters.Add("recipient", SqlDbType.NVarChar, RecipientColumnSize).Value = destinationAddress;
-                command.Parameters.Add("headers", SqlDbType.VarBinary).Value = serializedHeaders;
-                command.Parameters.Add("body", SqlDbType.VarBinary).Value = message.Body;
+                command.Parameters.Add("headers", SqlDbType.NVarChar).Value = serializedHeaders;
+                command.Parameters.Add("body", SqlDbType.NVarChar).Value = message.Body;
                 command.Parameters.Add("priority", SqlDbType.Int).Value = priority;
                 command.Parameters.Add("ttlseconds", SqlDbType.Int).Value = ttlSeconds;
                 command.Parameters.Add("visible", SqlDbType.Int).Value = initialVisibilityDelay;

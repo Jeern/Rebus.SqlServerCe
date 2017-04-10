@@ -67,9 +67,9 @@ namespace Rebus.SqlServerCe.DataBus
                     command.CommandText = $@"
     CREATE TABLE {_tableName.Name} (
         [Id] NVARCHAR(200),
-        [Meta] VARBINARY(MAX),
-        [Data] VARBINARY(MAX),
-        [LastReadTime] DATETIMEOFFSET
+        [Meta] NTEXT,
+        [Data] NTEXT,
+        [LastReadTime] DATETIME
     );
 
 ";
@@ -99,8 +99,8 @@ namespace Rebus.SqlServerCe.DataBus
                     {
                         command.CommandText = $"INSERT INTO {_tableName.Name} ([Id], [Meta], [Data]) VALUES (@id, @meta, @data)";
                         command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
-                        command.Parameters.Add("meta", SqlDbType.VarBinary).Value = TextEncoding.GetBytes(_dictionarySerializer.SerializeToString(metadataToWrite));
-                        command.Parameters.Add("data", SqlDbType.VarBinary).Value = source;
+                        command.Parameters.Add("meta", SqlDbType.NVarChar).Value = TextEncoding.GetBytes(_dictionarySerializer.SerializeToString(metadataToWrite));
+                        command.Parameters.Add("data", SqlDbType.NVarChar).Value = source;
 
                         await command.ExecuteNonQueryAsync();
                     }
@@ -182,7 +182,7 @@ namespace Rebus.SqlServerCe.DataBus
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = $"UPDATE {_tableName.Name} SET [LastReadTime] = @now WHERE [Id] = @id";
-                command.Parameters.Add("now", SqlDbType.DateTimeOffset).Value = RebusTime.Now;
+                command.Parameters.Add("now", SqlDbType.DateTime).Value = RebusTime.Now;
                 command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
                 await command.ExecuteNonQueryAsync();
             }
@@ -220,7 +220,7 @@ namespace Rebus.SqlServerCe.DataBus
 
                             if (lastReadTimeDbValue != DBNull.Value)
                             {
-                                var lastReadTime = (DateTimeOffset)lastReadTimeDbValue;
+                                var lastReadTime = (DateTime)lastReadTimeDbValue;
 
                                 metadata[MetadataKeys.ReadTime] = lastReadTime.ToString("O");
                             }

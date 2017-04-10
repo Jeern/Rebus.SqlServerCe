@@ -59,8 +59,8 @@ namespace Rebus.SqlServerCe.Sagas
     CREATE TABLE {_tableName.Name} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
-	    [data] [nvarchar](max) NOT NULL,
-	    [metadata] [nvarchar](max) NOT NULL,
+	    [data] [ntext] NOT NULL,
+	    [metadata] [ntext] NOT NULL,
         CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
         (
 	        [id] ASC,

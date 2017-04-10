@@ -112,7 +112,7 @@ namespace Rebus.SqlServerCe.Sagas
     CREATE TABLE {_dataTableName.Name} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
-	    [data] [varbinary](max) NOT NULL,
+	    [data] [ntext] NOT NULL,
         CONSTRAINT [PK_{_dataTableName.Name}] PRIMARY KEY CLUSTERED 
         (
 	        [id] ASC
@@ -400,7 +400,7 @@ UPDATE {_dataTableName.Name}
             }
             else
             {
-                command.Parameters.Add("data", SqlDbType.VarBinary).Value = JsonTextEncoding.GetBytes(data);
+                command.Parameters.Add("data", SqlDbType.NVarChar).Value = JsonTextEncoding.GetBytes(data);
             }
         }
 

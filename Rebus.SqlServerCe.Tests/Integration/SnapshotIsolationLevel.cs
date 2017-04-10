@@ -32,8 +32,8 @@ CREATE TABLE [Messages](
 	[priority] [int] NOT NULL,
 	[expiration] [datetime](7) NOT NULL,
 	[visible] [datetime](7) NOT NULL,
-	[headers] [varbinary](max) NOT NULL,
-	[body] [varbinary](max) NOT NULL,
+	[headers] [ntext] NOT NULL,
+	[body] [ntext] NOT NULL,
 	CONSTRAINT [PK_Messages] PRIMARY KEY CLUSTERED 
 	(
 		[recipient] ASC,
