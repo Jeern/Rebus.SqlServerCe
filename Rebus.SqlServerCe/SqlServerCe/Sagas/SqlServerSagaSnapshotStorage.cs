@@ -99,8 +99,8 @@ INSERT INTO {_tableName.Name} (
 ";
                     command.Parameters.Add("id", SqlDbType.UniqueIdentifier).Value = sagaData.Id;
                     command.Parameters.Add("revision", SqlDbType.Int).Value = sagaData.Revision;
-                    command.Parameters.Add("data", SqlDbType.NVarChar).Value = DataSerializer.SerializeToString(sagaData);
-                    command.Parameters.Add("metadata", SqlDbType.NVarChar).Value = MetadataSerializer.SerializeToString(sagaAuditMetadata);
+                    command.Parameters.Add("data", SqlDbType.NText).Value = DataSerializer.SerializeToString(sagaData);
+                    command.Parameters.Add("metadata", SqlDbType.NText).Value = MetadataSerializer.SerializeToString(sagaAuditMetadata);
 
                     await command.ExecuteNonQueryAsync();
                 }
