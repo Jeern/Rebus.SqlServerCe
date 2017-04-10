@@ -26,12 +26,12 @@ namespace Rebus.SqlServerCe.Tests.Integration
 
             SqlTestHelper.Execute(@"
 
-CREATE TABLE [dbo].[Messages](
+CREATE TABLE [Messages](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[recipient] [nvarchar](200) NOT NULL,
 	[priority] [int] NOT NULL,
-	[expiration] [datetime2](7) NOT NULL,
-	[visible] [datetime2](7) NOT NULL,
+	[expiration] [datetime](7) NOT NULL,
+	[visible] [datetime](7) NOT NULL,
 	[headers] [varbinary](max) NOT NULL,
 	[body] [varbinary](max) NOT NULL,
 	CONSTRAINT [PK_Messages] PRIMARY KEY CLUSTERED 

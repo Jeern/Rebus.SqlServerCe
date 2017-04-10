@@ -73,7 +73,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
             var createTableOldSchema =
                 $@"
 
-CREATE TABLE [dbo].[{_dataTableName}](
+CREATE TABLE [{_dataTableName}](
 	[id] [uniqueidentifier] NOT NULL,
 	[revision] [int] NOT NULL,
 	[data] [nvarchar](max) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE [dbo].[{_dataTableName}](
             var createTableOldSchema2 =
                 $@"
 
-CREATE TABLE [dbo].[{_indexTableName}](
+CREATE TABLE [{_indexTableName}](
 	[saga_type] [nvarchar](40) NOT NULL,
 	[key] [nvarchar](200) NOT NULL,
 	[value] [nvarchar](200) NOT NULL,

@@ -138,8 +138,8 @@ namespace Rebus.SqlServerCe.Transport
 	    [id] [bigint] IDENTITY(1,1) NOT NULL,
 	    [recipient] [nvarchar](200) NOT NULL,
 	    [priority] [int] NOT NULL,
-        [expiration] [datetime2] NOT NULL,
-        [visible] [datetime2] NOT NULL,
+        [expiration] [datetime] NOT NULL,
+        [visible] [datetime] NOT NULL,
 	    [headers] [varbinary](max) NOT NULL,
 	    [body] [varbinary](max) NOT NULL,
         CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
