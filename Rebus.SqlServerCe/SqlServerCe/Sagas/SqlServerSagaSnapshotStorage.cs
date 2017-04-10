@@ -51,17 +51,17 @@ namespace Rebus.SqlServerCe.Sagas
                     return;
                 }
 
-                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.QualifiedName);
+                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.Name);
 
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-    CREATE TABLE {_tableName.QualifiedName} (
+    CREATE TABLE {_tableName.Name} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
 	    [data] [nvarchar](max) NOT NULL,
 	    [metadata] [nvarchar](max) NOT NULL,
-        CONSTRAINT [PK_{_tableName.Schema}_{_tableName.Name}] PRIMARY KEY CLUSTERED 
+        CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
         (
 	        [id] ASC,
             [revision] ASC
@@ -88,7 +88,7 @@ namespace Rebus.SqlServerCe.Sagas
                     command.CommandText =
                         $@"
 
-INSERT INTO {_tableName.QualifiedName} (
+INSERT INTO {_tableName.Name} (
     [id],
     [revision],
     [data],

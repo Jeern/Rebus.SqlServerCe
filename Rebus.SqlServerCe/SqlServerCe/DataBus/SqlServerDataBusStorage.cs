@@ -50,7 +50,7 @@ namespace Rebus.SqlServerCe.DataBus
         {
             if (!_ensureTableIsCreated) return;
 
-            _log.Info("Creating data bus table {tableName}", _tableName.QualifiedName);
+            _log.Info("Creating data bus table {tableName}", _tableName.Name);
 
             EnsureTableIsCreated().Wait();
         }
@@ -65,7 +65,7 @@ namespace Rebus.SqlServerCe.DataBus
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-    CREATE TABLE {_tableName.QualifiedName} (
+    CREATE TABLE {_tableName.Name} (
         [Id] NVARCHAR(200),
         [Meta] VARBINARY(MAX),
         [Data] VARBINARY(MAX),
@@ -97,7 +97,7 @@ namespace Rebus.SqlServerCe.DataBus
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = $"INSERT INTO {_tableName.QualifiedName} ([Id], [Meta], [Data]) VALUES (@id, @meta, @data)";
+                        command.CommandText = $"INSERT INTO {_tableName.Name} ([Id], [Meta], [Data]) VALUES (@id, @meta, @data)";
                         command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
                         command.Parameters.Add("meta", SqlDbType.VarBinary).Value = TextEncoding.GetBytes(_dictionarySerializer.SerializeToString(metadataToWrite));
                         command.Parameters.Add("data", SqlDbType.VarBinary).Value = source;
@@ -130,7 +130,7 @@ namespace Rebus.SqlServerCe.DataBus
                 {
                     try
                     {
-                        command.CommandText = $"SELECT TOP 1 [Data] FROM {_tableName.QualifiedName} WITH (NOLOCK) WHERE [Id] = @id";
+                        command.CommandText = $"SELECT TOP 1 [Data] FROM {_tableName.Name} WITH (NOLOCK) WHERE [Id] = @id";
                         command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
 
                         var reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess);
@@ -181,7 +181,7 @@ namespace Rebus.SqlServerCe.DataBus
         {
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = $"UPDATE {_tableName.QualifiedName} SET [LastReadTime] = @now WHERE [Id] = @id";
+                command.CommandText = $"UPDATE {_tableName.Name} SET [LastReadTime] = @now WHERE [Id] = @id";
                 command.Parameters.Add("now", SqlDbType.DateTimeOffset).Value = RebusTime.Now;
                 command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
                 await command.ExecuteNonQueryAsync();
@@ -199,7 +199,7 @@ namespace Rebus.SqlServerCe.DataBus
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = $"SELECT TOP 1 [Meta], [LastReadTime], DATALENGTH([Data]) AS 'Length' FROM {_tableName.QualifiedName} WITH (NOLOCK) WHERE [Id] = @id";
+                        command.CommandText = $"SELECT TOP 1 [Meta], [LastReadTime], DATALENGTH([Data]) AS 'Length' FROM {_tableName.Name} WITH (NOLOCK) WHERE [Id] = @id";
                         command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
 
                         using (var reader = await command.ExecuteReaderAsync())

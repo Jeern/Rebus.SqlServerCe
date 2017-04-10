@@ -29,7 +29,7 @@ namespace Rebus.SqlServerCe
         public static List<TableName> GetTableNames(this SqlCeConnection connection, SqlCeTransaction transaction = null)
         {
             return GetNamesFrom(connection, transaction, "INFORMATION_SCHEMA.TABLES", new []{ "TABLE_SCHEMA", "TABLE_NAME" })
-                .Select(x => new TableName((string)x.TABLE_SCHEMA, (string)x.TABLE_NAME))
+                .Select(x => new TableName((string)x.TABLE_NAME))
                 .ToList();
         }
 
@@ -44,7 +44,7 @@ namespace Rebus.SqlServerCe
         /// <summary>
         /// Gets the names of all tables in the current database
         /// </summary>
-        public static Dictionary<string, SqlDbType> GetColumns(this SqlCeConnection connection, string schema, string tableName, SqlCeTransaction transaction = null)
+        public static Dictionary<string, SqlDbType> GetColumns(this SqlCeConnection connection, string tableName, SqlCeTransaction transaction = null)
         {
             var results = new Dictionary<string, SqlDbType>();
 
@@ -55,7 +55,7 @@ namespace Rebus.SqlServerCe
                     command.Transaction = transaction;
                 }
 
-                command.CommandText = $"SELECT [COLUMN_NAME] AS 'name', [DATA_TYPE] AS 'type' FROM [INFORMATION_SCHEMA].[COLUMNS] WHERE [TABLE_SCHEMA] = '{schema}' AND [TABLE_NAME] = '{tableName}'";
+                command.CommandText = $"SELECT [COLUMN_NAME] AS 'name', [DATA_TYPE] AS 'type' FROM [INFORMATION_SCHEMA].[COLUMNS] WHERE [TABLE_NAME] = '{tableName}'";
 
                 using (var reader = command.ExecuteReader())
                 {

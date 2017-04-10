@@ -91,9 +91,9 @@ namespace Rebus.SqlServerCe.Tests.Integration
                     await _innerConnection.Complete();
                 }
 
-                public IEnumerable<DbColumn> GetColumns(string schema, string dataTableName)
+                public IEnumerable<DbColumn> GetColumns(string dataTableName)
                 {
-                    return _innerConnection.GetColumns(schema, dataTableName);
+                    return _innerConnection.GetColumns(dataTableName);
                 }
 
                 public void Dispose()

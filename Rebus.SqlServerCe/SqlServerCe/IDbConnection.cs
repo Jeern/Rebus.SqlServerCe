@@ -29,9 +29,9 @@ namespace Rebus.SqlServerCe
         Task Complete();
 
         /// <summary>
-        /// Gets information about the columns in the table given by [<paramref name="schema"/>].[<paramref name="dataTableName"/>]
+        /// Gets information about the columns in the table given by [<paramref name="dataTableName"/>]
         /// </summary>
-        IEnumerable<DbColumn> GetColumns(string schema, string dataTableName);
+        IEnumerable<DbColumn> GetColumns(string dataTableName);
     }
 
     /// <summary>

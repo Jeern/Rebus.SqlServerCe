@@ -111,7 +111,7 @@ namespace Rebus.SqlServerCe.Transport
             }
             catch (SqlException exception)
             {
-                throw new RebusApplicationException(exception, $"Error attempting to initialize SQL transport schema with mesages table {_tableName.QualifiedName}");
+                throw new RebusApplicationException(exception, $"Error attempting to initialize SQL transport schema with mesages table {_tableName.Name}");
             }
         }
 
@@ -123,17 +123,17 @@ namespace Rebus.SqlServerCe.Transport
                 
                 if (tableNames.Contains(_tableName))
                 {
-                    _log.Info("Database already contains a table named {tableName} - will not create anything", _tableName.QualifiedName);
+                    _log.Info("Database already contains a table named {tableName} - will not create anything", _tableName.Name);
                     return;
                 }
 
-                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.QualifiedName);
+                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.Name);
 
-                var receiveIndexName = $"IDX_RECEIVE_{_tableName.Schema}_{_tableName.Name}";
-                var expirationIndexName = $"IDX_EXPIRATION_{_tableName.Schema}_{_tableName.Name}";
+                var receiveIndexName = $"IDX_RECEIVE_{_tableName.Name}";
+                var expirationIndexName = $"IDX_EXPIRATION_{_tableName.Name}";
 
                 TryExecuteCommands(connection, $@"
-    CREATE TABLE {_tableName.QualifiedName}
+    CREATE TABLE {_tableName.Name}
     (
 	    [id] [bigint] IDENTITY(1,1) NOT NULL,
 	    [recipient] [nvarchar](200) NOT NULL,
@@ -142,7 +142,7 @@ namespace Rebus.SqlServerCe.Transport
         [visible] [datetime2] NOT NULL,
 	    [headers] [varbinary](max) NOT NULL,
 	    [body] [varbinary](max) NOT NULL,
-        CONSTRAINT [PK_{_tableName.Schema}_{_tableName.Name}] PRIMARY KEY CLUSTERED 
+        CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
         (
 	        [recipient] ASC,
 	        [priority] ASC,
@@ -152,7 +152,7 @@ namespace Rebus.SqlServerCe.Transport
 
 ----
 
-    CREATE NONCLUSTERED INDEX [{receiveIndexName}] ON {_tableName.QualifiedName}
+    CREATE NONCLUSTERED INDEX [{receiveIndexName}] ON {_tableName.Name}
     (
 	    [recipient] ASC,
 	    [priority] ASC,
@@ -163,7 +163,7 @@ namespace Rebus.SqlServerCe.Transport
 
 ----
 
-    CREATE NONCLUSTERED INDEX [{expirationIndexName}] ON {_tableName.QualifiedName}
+    CREATE NONCLUSTERED INDEX [{expirationIndexName}] ON {_tableName.Name}
     (
         [expiration] ASC
     )
@@ -236,7 +236,7 @@ namespace Rebus.SqlServerCe.Transport
 				[id],
 				[headers],
 				[body]
-		FROM	{_tableName.QualifiedName} M WITH (ROWLOCK, READPAST)
+		FROM	{_tableName.Name} M WITH (ROWLOCK, READPAST)
 		WHERE	M.[recipient] = @recipient
 		AND		M.[visible] < getdate()
 		AND		M.[expiration] > getdate()
@@ -294,7 +294,7 @@ namespace Rebus.SqlServerCe.Transport
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = $@"
-INSERT INTO {_tableName.QualifiedName}
+INSERT INTO {_tableName.Name}
 (
     [recipient],
     [headers],
@@ -378,7 +378,7 @@ VALUES
                         command.CommandText =
                             $@"
 ;with TopCTE as (
-	SELECT TOP 1 [id] FROM {_tableName.QualifiedName} WITH (ROWLOCK, READPAST)
+	SELECT TOP 1 [id] FROM {_tableName.Name} WITH (ROWLOCK, READPAST)
 				WHERE [recipient] = @recipient 
 					AND [expiration] < getdate()
 )

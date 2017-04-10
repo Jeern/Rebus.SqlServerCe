@@ -60,12 +60,12 @@ namespace Rebus.SqlServerCe
         /// <summary>
         /// Gets information about the columns in the table given by <paramref name="dataTableName"/>
         /// </summary>
-        public IEnumerable<DbColumn> GetColumns(string schema, string dataTableName)
+        public IEnumerable<DbColumn> GetColumns(string dataTableName)
         {
             try
             {
                 return _connection
-                    .GetColumns(schema, dataTableName, _currentTransaction)
+                    .GetColumns(dataTableName, _currentTransaction)
                     .Select(kvp => new DbColumn(kvp.Key, kvp.Value))
                     .ToList();
             }

@@ -69,8 +69,7 @@ SELECT
 FROM INFORMATION_SCHEMA.COLUMNS
 
 WHERE 
-    TABLE_SCHEMA = '{_tableName.Schema}' 
-    AND TABLE_NAME = '{_tableName.Name}'
+    TABLE_NAME = '{_tableName.Name}'
     AND COLUMN_NAME = '{columnName}'
 ";
 
@@ -102,15 +101,15 @@ WHERE
                     return;
                 }
 
-                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.QualifiedName);
+                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.Name);
 
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-    CREATE TABLE {_tableName.QualifiedName} (
+    CREATE TABLE {_tableName.Name} (
 	    [topic] [nvarchar]({_topicLength}) NOT NULL,
 	    [address] [nvarchar]({_addressLength}) NOT NULL,
-        CONSTRAINT [PK_{_tableName.Schema}_{_tableName.Name}] PRIMARY KEY CLUSTERED 
+        CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY CLUSTERED 
         (
 	        [topic] ASC,
 	        [address] ASC
@@ -133,7 +132,7 @@ WHERE
             {
                 using (var command = connection.CreateCommand())
                 {
-                    command.CommandText = $"SELECT [address] FROM {_tableName.QualifiedName} WHERE [topic] = @topic";
+                    command.CommandText = $"SELECT [address] FROM {_tableName.Name} WHERE [topic] = @topic";
                     command.Parameters.Add("topic", SqlDbType.NVarChar, _topicLength).Value = topic;
 
                     var subscriberAddresses = new List<string>();
@@ -164,7 +163,7 @@ WHERE
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-    INSERT INTO {_tableName.QualifiedName} ([topic], [address]) VALUES (@topic, @address)
+    INSERT INTO {_tableName.Name} ([topic], [address]) VALUES (@topic, @address)
 ";
                     command.Parameters.Add("topic", SqlDbType.NVarChar, _topicLength).Value = topic;
                     command.Parameters.Add("address", SqlDbType.NVarChar, _addressLength).Value = subscriberAddress;
@@ -204,7 +203,7 @@ WHERE
                 {
                     command.CommandText =
                         $@"
-DELETE FROM {_tableName.QualifiedName} WHERE [topic] = @topic AND [address] = @address
+DELETE FROM {_tableName.Name} WHERE [topic] = @topic AND [address] = @address
 ";
                     command.Parameters.Add("topic", SqlDbType.NVarChar, _topicLength).Value = topic;
                     command.Parameters.Add("address", SqlDbType.NVarChar, _addressLength).Value = subscriberAddress;

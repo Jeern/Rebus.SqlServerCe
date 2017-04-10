@@ -49,17 +49,17 @@ namespace Rebus.SqlServerCe.Timeouts
                     return;
                 }
 
-                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.QualifiedName);
+                _log.Info("Table {tableName} does not exist - it will be created now", _tableName.Name);
 
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-    CREATE TABLE {_tableName.QualifiedName} (
+    CREATE TABLE {_tableName.Name} (
         [id] [int] IDENTITY(1,1) NOT NULL,
 	    [due_time] [datetime2](7) NOT NULL,
 	    [headers] [nvarchar](MAX) NOT NULL,
 	    [body] [varbinary](MAX) NOT NULL,
-        CONSTRAINT [PK_{_tableName.Schema}_{_tableName.Name}] PRIMARY KEY NONCLUSTERED 
+        CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY NONCLUSTERED 
         (
 	        [id] ASC
         )
@@ -71,7 +71,7 @@ namespace Rebus.SqlServerCe.Timeouts
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText = $@"
-    CREATE CLUSTERED INDEX [IX_{_tableName.Schema}_{_tableName.Name}_DueTime] ON {_tableName.QualifiedName}
+    CREATE CLUSTERED INDEX [IX_{_tableName.Name}_DueTime] ON {_tableName.Name}
     (
 	    [due_time] ASC
     )";
@@ -96,7 +96,7 @@ namespace Rebus.SqlServerCe.Timeouts
                 using (var command = connection.CreateCommand())
                 {
                     command.CommandText =
-                        $@"INSERT INTO {_tableName.QualifiedName} ([due_time], [headers], [body]) VALUES (@due_time, @headers, @body)";
+                        $@"INSERT INTO {_tableName.Name} ([due_time], [headers], [body]) VALUES (@due_time, @headers, @body)";
 
                     command.Parameters.Add("due_time", SqlDbType.DateTime2).Value = approximateDueTime.UtcDateTime;
                     command.Parameters.Add("headers", SqlDbType.NVarChar).Value = headersString;
@@ -129,7 +129,7 @@ SELECT
     [id],
     [headers],
     [body]
-FROM {_tableName.QualifiedName} WITH (UPDLOCK, READPAST, ROWLOCK)
+FROM {_tableName.Name} WITH (UPDLOCK, READPAST, ROWLOCK)
 WHERE [due_time] <= @current_time 
 ORDER BY [due_time] ASC
 ";
@@ -149,7 +149,7 @@ ORDER BY [due_time] ASC
                             {
                                 using (var deleteCommand = connection.CreateCommand())
                                 {
-                                    deleteCommand.CommandText = $"DELETE FROM {_tableName.QualifiedName} WHERE [id] = @id";
+                                    deleteCommand.CommandText = $"DELETE FROM {_tableName.Name} WHERE [id] = @id";
                                     deleteCommand.Parameters.Add("id", SqlDbType.Int).Value = id;
                                     await deleteCommand.ExecuteNonQueryAsync();
                                 }

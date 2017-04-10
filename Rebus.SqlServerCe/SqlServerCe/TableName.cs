@@ -4,31 +4,22 @@ using System.Text.RegularExpressions;
 namespace Rebus.SqlServerCe
 {
     /// <summary>
-    /// Represents a (possibly schema-qualified) table name in SQL Server Compact
+    /// Represents a table name in SQL Server Compact
     /// </summary>
     public class TableName : IEquatable<TableName>
     {
-        /// <summary>
-        /// Gets the schema name of the table
-        /// </summary>
-        public string Schema { get; }
-        
         /// <summary>
         /// Gets the table's name
         /// </summary>
         public string Name { get; }
 
-        internal string QualifiedName => $"[{Schema}].[{Name}]";
-
         /// <summary>
-        /// Creates a <see cref="TableName"/> object with the given schema and table names
+        /// Creates a <see cref="TableName"/> object with the given table names
         /// </summary>
-        public TableName(string schema, string tableName)
+        public TableName(string tableName)
         {
-            if (schema == null) throw new ArgumentNullException(nameof(schema));
             if (tableName == null) throw new ArgumentNullException(nameof(tableName));
 
-            Schema = StripBrackets(schema);
             Name = StripBrackets(tableName);
         }
 
@@ -69,12 +60,7 @@ namespace Rebus.SqlServerCe
         {
             if (parts.Length == 1)
             {
-                return new TableName("dbo", parts[0]);
-            }
-
-            if (parts.Length == 2)
-            {
-                return new TableName(parts[0], parts[1]);
+                return new TableName(parts[0]);
             }
 
             throw new ArgumentException(
@@ -98,7 +84,7 @@ namespace Rebus.SqlServerCe
         /// <inheritdoc />
         public override string ToString()
         {
-            return QualifiedName;
+            return Name;
         }
 
         /// <inheritdoc />
@@ -106,8 +92,7 @@ namespace Rebus.SqlServerCe
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return string.Equals(Schema, other.Schema, StringComparison.CurrentCultureIgnoreCase)
-                   && string.Equals(Name, other.Name, StringComparison.CurrentCultureIgnoreCase);
+            return string.Equals(Name, other.Name, StringComparison.CurrentCultureIgnoreCase);
         }
 
         /// <inheritdoc />
@@ -122,10 +107,7 @@ namespace Rebus.SqlServerCe
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (Schema.GetHashCode() * 397) ^ Name.GetHashCode();
-            }
+            return Name.GetHashCode();
         }
 
         /// <summary>

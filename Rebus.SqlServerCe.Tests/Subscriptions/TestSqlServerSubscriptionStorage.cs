@@ -76,10 +76,10 @@ namespace Rebus.SqlServerCe.Tests.Subscriptions
 
                 SqlTestHelper.Execute($@"
 
-    CREATE TABLE {tableName.QualifiedName} (
+    CREATE TABLE {tableName.Name} (
 	    [topic] [nvarchar](350) NOT NULL,
 	    [address] [nvarchar](50) NOT NULL,
-        CONSTRAINT [PK_{tableName.Schema}_{tableName.Name}] PRIMARY KEY CLUSTERED 
+        CONSTRAINT [PK_{tableName.Name}] PRIMARY KEY CLUSTERED 
         (
 	        [topic] ASC,
 	        [address] ASC

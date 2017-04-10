@@ -52,9 +52,8 @@ namespace Rebus.SqlServerCe.Tests.Assumptions
         {
             var tableName = TableName.Parse(input);
 
-            Assert.That(tableName.Schema, Is.EqualTo(expectedSchema));
             Assert.That(tableName.Name, Is.EqualTo(expectedTable));
-            Assert.That(tableName.QualifiedName, Is.EqualTo($"[{expectedSchema}].[{expectedTable}]"));
+            Assert.That(tableName.Name, Is.EqualTo($"[{expectedSchema}].[{expectedTable}]"));
         }
 
         [Test]
@@ -63,8 +62,7 @@ namespace Rebus.SqlServerCe.Tests.Assumptions
             var table = TableName.Parse("TableName");
 
             Assert.AreEqual(table.Name, "TableName");
-            Assert.AreEqual(table.Schema, "dbo");
-            Assert.AreEqual(table.QualifiedName, "[dbo].[TableName]");
+            Assert.AreEqual(table.Name, "[dbo].[TableName]");
         }
 
         [Test]
@@ -73,8 +71,7 @@ namespace Rebus.SqlServerCe.Tests.Assumptions
             var table = TableName.Parse("[TableName]");
 
             Assert.AreEqual(table.Name, "TableName");
-            Assert.AreEqual(table.Schema, "dbo");
-            Assert.AreEqual(table.QualifiedName, "[dbo].[TableName]");
+            Assert.AreEqual(table.Name, "[dbo].[TableName]");
         }
 
         [Test]
@@ -83,8 +80,7 @@ namespace Rebus.SqlServerCe.Tests.Assumptions
             var table = TableName.Parse("schema.TableName");
 
             Assert.AreEqual(table.Name, "TableName");
-            Assert.AreEqual(table.Schema, "schema");
-            Assert.AreEqual(table.QualifiedName, "[schema].[TableName]");
+            Assert.AreEqual(table.Name, "[schema].[TableName]");
         }
 
         [Test]
@@ -93,8 +89,7 @@ namespace Rebus.SqlServerCe.Tests.Assumptions
             var table = TableName.Parse("[schema].[TableName]");
 
             Assert.AreEqual(table.Name, "TableName");
-            Assert.AreEqual(table.Schema, "schema");
-            Assert.AreEqual(table.QualifiedName, "[schema].[TableName]");
+            Assert.AreEqual(table.Name, "[schema].[TableName]");
         }
     }
 }
