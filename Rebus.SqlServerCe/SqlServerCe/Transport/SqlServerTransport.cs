@@ -297,8 +297,8 @@ VALUES
                 var serializedHeaders = HeaderSerializer.Serialize(headers);
 
                 command.Parameters.Add("recipient", SqlDbType.NVarChar, RecipientColumnSize).Value = destinationAddress;
-                command.Parameters.Add("headers", SqlDbType.NVarChar).Value = serializedHeaders;
-                command.Parameters.Add("body", SqlDbType.NVarChar).Value = message.Body;
+                command.Parameters.Add("headers", SqlDbType.Image).Value = serializedHeaders;
+                command.Parameters.Add("body", SqlDbType.Image).Value = message.Body;
                 command.Parameters.Add("priority", SqlDbType.Int).Value = priority;
                 command.Parameters.Add("ttlseconds", SqlDbType.Int).Value = ttlSeconds;
                 command.Parameters.Add("visible", SqlDbType.Int).Value = initialVisibilityDelay;
