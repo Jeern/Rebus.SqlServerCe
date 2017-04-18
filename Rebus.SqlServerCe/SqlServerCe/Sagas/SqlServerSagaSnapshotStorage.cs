@@ -57,8 +57,8 @@ namespace Rebus.SqlServerCe.Sagas
     CREATE TABLE {_tableName.Name} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
-	    [data] [ntext] NOT NULL,
-	    [metadata] [ntext] NOT NULL
+	    [data] [image] NOT NULL,
+	    [metadata] [image] NOT NULL
     )
 
 ----
@@ -99,8 +99,8 @@ INSERT INTO {_tableName.Name} (
 ";
                     command.Parameters.Add("id", SqlDbType.UniqueIdentifier).Value = sagaData.Id;
                     command.Parameters.Add("revision", SqlDbType.Int).Value = sagaData.Revision;
-                    command.Parameters.Add("data", SqlDbType.NText).Value = DataSerializer.SerializeToString(sagaData);
-                    command.Parameters.Add("metadata", SqlDbType.NText).Value = MetadataSerializer.SerializeToString(sagaAuditMetadata);
+                    command.Parameters.Add("data", SqlDbType.Image).Value = DataSerializer.SerializeToString(sagaData);
+                    command.Parameters.Add("metadata", SqlDbType.Image).Value = MetadataSerializer.SerializeToString(sagaAuditMetadata);
 
                     await command.ExecuteNonQueryAsync();
                 }

@@ -67,8 +67,8 @@ namespace Rebus.SqlServerCe.DataBus
                     command.CommandText = $@"
     CREATE TABLE {_tableName.Name} (
         [Id] NVARCHAR(200),
-        [Meta] NTEXT,
-        [Data] NTEXT,
+        [Meta] Image,
+        [Data] Image,
         [LastReadTime] DATETIME
     );
 
@@ -99,8 +99,8 @@ namespace Rebus.SqlServerCe.DataBus
                     {
                         command.CommandText = $"INSERT INTO {_tableName.Name} ([Id], [Meta], [Data]) VALUES (@id, @meta, @data)";
                         command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
-                        command.Parameters.Add("meta", SqlDbType.NText).Value = TextEncoding.GetBytes(_dictionarySerializer.SerializeToString(metadataToWrite));
-                        command.Parameters.Add("data", SqlDbType.NText).Value = source;
+                        command.Parameters.Add("meta", SqlDbType.Image).Value = TextEncoding.GetBytes(_dictionarySerializer.SerializeToString(metadataToWrite));
+                        command.Parameters.Add("data", SqlDbType.Image).Value = source.ToByteArray();
 
                         await command.ExecuteNonQueryAsync();
                     }

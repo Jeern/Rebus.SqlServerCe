@@ -65,7 +65,7 @@ namespace Rebus.SqlServerCe.Sagas
                 if (datacolumn == null) { return; }
 
                 // remember to use "old format" if the data column is NVarChar
-                _oldFormatDataTable = datacolumn.Type == SqlDbType.NVarChar;
+                _oldFormatDataTable = datacolumn.Type == SqlDbType.NVarChar || datacolumn.Type == SqlDbType.NText || datacolumn.Type == SqlDbType.Image;
             }
         }
 
@@ -112,7 +112,7 @@ namespace Rebus.SqlServerCe.Sagas
     CREATE TABLE {_dataTableName.Name} (
 	    [id] [uniqueidentifier] NOT NULL,
 	    [revision] [int] NOT NULL,
-	    [data] [ntext] NOT NULL
+	    [data] [image] NOT NULL
     )
 
 ----
@@ -372,11 +372,11 @@ UPDATE {_dataTableName.Name}
         {
             if (_oldFormatDataTable)
             {
-                command.Parameters.Add("data", SqlDbType.NText).Value = data;
+                command.Parameters.Add("data", SqlDbType.Image).Value = data;
             }
             else
             {
-                command.Parameters.Add("data", SqlDbType.NText).Value = JsonTextEncoding.GetBytes(data);
+                command.Parameters.Add("data", SqlDbType.Image).Value = JsonTextEncoding.GetBytes(data);
             }
         }
 
