@@ -199,7 +199,7 @@ namespace Rebus.SqlServerCe.DataBus
                 {
                     using (var command = connection.CreateCommand())
                     {
-                        command.CommandText = $"SELECT TOP 1 [Meta], [LastReadTime], DATALENGTH([Data]) AS 'Length' FROM {_tableName.Name} WITH (NOLOCK) WHERE [Id] = @id";
+                        command.CommandText = $"SELECT TOP 1 [Meta], [LastReadTime], DATALENGTH([Data]) Length FROM {_tableName.Name} WHERE [Id] = @id";
                         command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
 
                         using (var reader = await command.ExecuteReaderAsync())
