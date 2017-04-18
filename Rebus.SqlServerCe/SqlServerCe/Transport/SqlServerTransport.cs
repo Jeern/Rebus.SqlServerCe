@@ -204,34 +204,27 @@ CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([recipient], [p
                 //VI ER HER - DENNE COMMAND SKAL OMSKRIVES TIL MULTIPLE
 
                 using (var selectCommand = connection.CreateCommand())
+                using (var deleteCommand = connection.CreateCommand())
                 {
                     selectCommand.CommandText = $@"
-	SET NOCOUNT ON
-
-	;WITH TopCTE AS (
 		SELECT	TOP 1
 				[id],
 				[headers],
 				[body]
-		FROM	{_tableName.Name} M WITH (ROWLOCK, READPAST)
+		FROM	{_tableName.Name} M 
 		WHERE	M.[recipient] = @recipient
 		AND		M.[visible] < getdate()
 		AND		M.[expiration] > getdate()
 		ORDER
 		BY		[priority] ASC,
-				[id] ASC
-	)
-	DELETE	FROM TopCTE
-	OUTPUT	deleted.[id] as [id],
-			deleted.[headers] as [headers],
-			deleted.[body] as [body]
-						
-						";
+				[id] ASC";
 
+                    deleteCommand.CommandText = $@"DELETE FROM {_tableName.Name} WHERE [id] = @id";
                     selectCommand.Parameters.Add("recipient", SqlDbType.NVarChar, RecipientColumnSize).Value = _inputQueueName;
 
                     try
                     {
+                        long id;
                         using (var reader = await selectCommand.ExecuteReaderAsync(cancellationToken))
                         {
                             if (!await reader.ReadAsync(cancellationToken)) return null;
@@ -239,9 +232,13 @@ CREATE UNIQUE INDEX [PK_{_tableName.Name}] ON {_tableName.Name} ([recipient], [p
                             var headers = reader["headers"];
                             var headersDictionary = HeaderSerializer.Deserialize((byte[]) headers);
                             var body = (byte[]) reader["body"];
+                            id = (long) reader["id"];
+
 
                             receivedTransportMessage = new TransportMessage(headersDictionary, body);
                         }
+                        deleteCommand.Parameters.Add("id", SqlDbType.BigInt).Value = id;
+                        await deleteCommand.ExecuteNonQueryAsync(cancellationToken);
                     }
                     catch (Exception exception) when (cancellationToken.IsCancellationRequested)
                     {
