@@ -210,11 +210,10 @@ namespace Rebus.SqlServerCe.DataBus
                             }
 
                             var bytes = (byte[])reader["Meta"];
-                            var length = (long)reader["Length"];
-                            var lastReadTimeDbValue = reader["LastReadTime"];
-
                             var jsonText = TextEncoding.GetString(bytes);
                             var metadata = _dictionarySerializer.DeserializeFromString(jsonText);
+                            var length = (int)reader["Length"];
+                            var lastReadTimeDbValue = reader["LastReadTime"];
 
                             metadata[MetadataKeys.Length] = length.ToString();
 
