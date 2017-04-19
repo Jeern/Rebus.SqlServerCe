@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -128,12 +129,13 @@ namespace Rebus.SqlServerCe.DataBus
 
                 using (var command = connection.CreateCommand())
                 {
+                    DbDataReader reader = null;
                     try
                     {
                         command.CommandText = $"SELECT TOP 1 [Data] FROM {_tableName.Name} WITH (NOLOCK) WHERE [Id] = @id";
                         command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
 
-                        var reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess);
+                        reader = await command.ExecuteReaderAsync(CommandBehavior.SequentialAccess);
 
                         if (!await reader.ReadAsync())
                         {
@@ -153,6 +155,7 @@ namespace Rebus.SqlServerCe.DataBus
                     catch
                     {
                         // if something of the above fails, we did not pass the connection to someone who can dispose it... wherefore:
+                        reader?.Close();
                         connection.Dispose();
                         throw;
                     }
