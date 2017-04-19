@@ -58,12 +58,12 @@ namespace Rebus.SqlServerCe.Timeouts
                     command.CommandText = $@"
     CREATE TABLE {_tableName.Name} (
         [id] [int] IDENTITY(1,1) NOT NULL,
-	    [due_time] [datetime](7) NOT NULL,
+	    [due_time] [datetime] NOT NULL,
 	    [headers] [image] NOT NULL,
 	    [body] [image] NOT NULL,
         CONSTRAINT [PK_{_tableName.Name}] PRIMARY KEY NONCLUSTERED 
         (
-	        [id] ASC
+	        [id] 
         )
     )
 ";
@@ -131,7 +131,7 @@ SELECT
     [id],
     [headers],
     [body]
-FROM {_tableName.Name} WITH (UPDLOCK, READPAST, ROWLOCK)
+FROM {_tableName.Name} 
 WHERE [due_time] <= @current_time 
 ORDER BY [due_time] ASC
 ";
