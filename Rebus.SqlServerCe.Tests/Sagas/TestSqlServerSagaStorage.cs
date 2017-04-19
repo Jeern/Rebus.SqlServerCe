@@ -76,7 +76,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
 CREATE TABLE [{_dataTableName}](
 	[id] [uniqueidentifier] NOT NULL,
 	[revision] [int] NOT NULL,
-	[data] [ntext] NOT NULL
+	[data] [image] NOT NULL
 )
 
 ----
