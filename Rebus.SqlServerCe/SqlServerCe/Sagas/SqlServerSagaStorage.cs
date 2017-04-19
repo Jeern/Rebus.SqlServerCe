@@ -397,47 +397,44 @@ UPDATE {_dataTableName.Name}
                 })
                 .ToList();
 
-            // lastly, generate new index
-            using (var command = connection.CreateCommand())
-            {
-                // generate batch insert with SQL for each entry in the index
-                var inserts = parameters
-                    .Select(a =>
-                        $@"
+            // generate batch insert with SQL for each entry in the index
+            var inserts = parameters
+                .Select(a =>
+                    $@"
 INSERT INTO {_indexTableName.Name}
     ([saga_type], [key], [value], [saga_id]) 
 VALUES
     (@saga_type, @{
-                            a.PropertyNameParameter}, @{a.PropertyValueParameter}, @saga_id)
+                        a.PropertyNameParameter}, @{a.PropertyValueParameter}, @saga_id)
 ")
-                    .ToList();
+                .ToList();
 
-                var sql = string.Join(";" + Environment.NewLine, inserts);
+            var sql = string.Join("----" + Environment.NewLine, inserts);
 
-                command.CommandText = sql;
 
-                foreach (var parameter in parameters)
+            try
+            {
+                await connection.TryExecuteCommandsAsync(sql, command =>
                 {
-                    command.Parameters.Add(parameter.PropertyNameParameter, SqlDbType.NVarChar).Value = parameter.PropertyName;
-                    command.Parameters.Add(parameter.PropertyValueParameter, SqlDbType.NVarChar).Value = parameter.PropertyValue;
-                }
-
-                command.Parameters.Add("saga_type", SqlDbType.NVarChar).Value = sagaTypeName;
-                command.Parameters.Add("saga_id", SqlDbType.UniqueIdentifier).Value = sagaData.Id;
-
-                try
-                {
-                    await command.ExecuteNonQueryAsync();
-                }
-                catch (SqlCeException sqlException)
-                {
-                    if (sqlException.NativeError == SqlServerCeMagic.PrimaryKeyViolationNumber)
+                    foreach (var parameter in parameters)
                     {
-                        throw new ConcurrencyException($"Could not update index for saga with ID {sagaData.Id} because of a PK violation - there must already exist a saga instance that uses one of the following correlation properties: {string.Join(", ", propertiesToIndexList.Select(p => $"{p.Key}='{p.Value}'"))}");
+                        command.Parameters.Add(parameter.PropertyNameParameter, SqlDbType.NVarChar).Value =
+                            parameter.PropertyName;
+                        command.Parameters.Add(parameter.PropertyValueParameter, SqlDbType.NVarChar).Value =
+                            parameter.PropertyValue;
                     }
-
-                    throw;
+                    command.Parameters.Add("saga_type", SqlDbType.NVarChar).Value = sagaTypeName;
+                    command.Parameters.Add("saga_id", SqlDbType.UniqueIdentifier).Value = sagaData.Id;
+                });
+            }
+            catch (SqlCeException sqlException)
+            {
+                if (sqlException.NativeError == SqlServerCeMagic.PrimaryKeyViolationNumber)
+                {
+                    throw new ConcurrencyException($"Could not update index for saga with ID {sagaData.Id} because of a PK violation - there must already exist a saga instance that uses one of the following correlation properties: {string.Join(", ", propertiesToIndexList.Select(p => $"{p.Key}='{p.Value}'"))}");
                 }
+
+                throw;
             }
 
         }
