@@ -58,7 +58,7 @@ namespace Rebus.SqlServerCe.Tests
 
         public static void DropIndex(string tableName, string indexName)
         {
-            DropObject($"DROP INDEX [{indexName}] ON [{tableName}]", connection =>
+            DropObject($"DROP INDEX {tableName}.{indexName}", connection =>
             {
                 var indexNames = connection.GetIndexNames();
 

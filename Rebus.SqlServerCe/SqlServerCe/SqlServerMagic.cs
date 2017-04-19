@@ -38,7 +38,7 @@ namespace Rebus.SqlServerCe
         /// </summary>
         public static List<string> GetIndexNames(this SqlCeConnection connection, SqlCeTransaction transaction = null)
         {
-            return GetNamesFrom(connection, transaction, "sys.indexes", new []{ "name" }).Select(x => (string)x.name).ToList();
+            return GetNamesFrom(connection, transaction, "INFORMATION_SCHEMA.indexes", new []{ "index_name" }).Select(x => (string)x.index_name).ToList();
         }
 
         /// <summary>

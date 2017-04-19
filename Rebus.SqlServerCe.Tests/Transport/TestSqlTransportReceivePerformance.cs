@@ -25,8 +25,7 @@ namespace Rebus.SqlServerCe.Tests.Transport
 
         static readonly string IndexCreationScriptToCheck = $@"
 CREATE INDEX IX_{TableName.ToUpperInvariant()}_ID
-    ON [{TableName}] ([id]) 
-    INCLUDE ([recipient], [priority])
+    ON [{TableName}] ([id], [recipient], [priority])
 ";
 
         protected override void SetUp()
