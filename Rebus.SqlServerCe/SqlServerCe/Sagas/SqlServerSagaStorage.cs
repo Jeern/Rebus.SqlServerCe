@@ -79,7 +79,7 @@ namespace Rebus.SqlServerCe.Sagas
             using (var connection = await _connectionProvider.GetConnection())
             {
                 var tableNames = connection.GetTableNames().ToList();
-                
+
                 var hasDataTable = tableNames.Contains(_dataTableName);
                 var hasIndexTable = tableNames.Contains(_indexTableName);
 
@@ -176,7 +176,7 @@ ALTER TABLE {_indexTableName.Name} CHECK CONSTRAINT [FK_{_dataTableName.Name}_id
                     {
                         command.CommandText =
                             $@"
-SELECT TOP 1 [saga].[data] AS 'data' FROM {_dataTableName.Name} [saga] 
+SELECT TOP 1 [saga].[data] data FROM {_dataTableName.Name} [saga] 
     JOIN {_indexTableName.Name} [index] ON [saga].[id] = [index].[saga_id] 
 WHERE [index].[saga_type] = @saga_type
     AND [index].[key] = @key 
