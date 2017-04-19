@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Rebus.Auditing.Sagas;
 using Rebus.Logging;
@@ -11,6 +12,7 @@ namespace Rebus.SqlServerCe.Tests.Sagas
 {
     public class SqlServerCeSnapshotStorageFactory : ISagaSnapshotStorageFactory
     {
+        static readonly Encoding TextEncoding = Encoding.UTF8;
         const string TableName = "SagaSnapshots";
 
         public SqlServerCeSnapshotStorageFactory()
@@ -49,8 +51,8 @@ namespace Rebus.SqlServerCe.Tests.Sagas
                     {
                         while (await reader.ReadAsync())
                         {
-                            var sagaData = (ISagaData)new ObjectSerializer().DeserializeFromString((string)reader["data"]);
-                            var metadata = new HeaderSerializer().DeserializeFromString((string)reader["metadata"]);
+                            var sagaData = (ISagaData)new ObjectSerializer().DeserializeFromString(TextEncoding.GetString((byte[])reader["data"]));
+                            var metadata = new HeaderSerializer().DeserializeFromString(TextEncoding.GetString((byte[])reader["metadata"]));
 
                             storedCopies.Add(new SagaDataSnapshot{SagaData = sagaData, Metadata = metadata});
                         }

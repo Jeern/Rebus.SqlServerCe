@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Rebus.Logging;
 using Rebus.Serialization;
@@ -16,6 +17,7 @@ namespace Rebus.SqlServerCe.Timeouts
     /// </summary>
     public class SqlServerCeTimeoutManager : ITimeoutManager
     {
+        static readonly Encoding TextEncoding = Encoding.UTF8;
         static readonly HeaderSerializer HeaderSerializer = new HeaderSerializer();
         readonly IDbConnectionProvider _connectionProvider;
         readonly TableName _tableName;
@@ -99,7 +101,7 @@ namespace Rebus.SqlServerCe.Timeouts
                         $@"INSERT INTO {_tableName.Name} ([due_time], [headers], [body]) VALUES (@due_time, @headers, @body)";
 
                     command.Parameters.Add("due_time", SqlDbType.DateTime).Value = approximateDueTime.UtcDateTime;
-                    command.Parameters.Add("headers", SqlDbType.Image).Value = headersString;
+                    command.Parameters.Add("headers", SqlDbType.Image).Value = TextEncoding.GetBytes(headersString);
                     command.Parameters.Add("body", SqlDbType.Image).Value = body;
 
                     await command.ExecuteNonQueryAsync();
@@ -141,7 +143,7 @@ ORDER BY [due_time] ASC
                         while (reader.Read())
                         {
                             var id = (int)reader["id"];
-                            var headersString = (string)reader["headers"];
+                            var headersString = TextEncoding.GetString((byte[])reader["headers"]);
                             var headers = HeaderSerializer.DeserializeFromString(headersString);
                             var body = (byte[])reader["body"];
 

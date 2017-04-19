@@ -33,7 +33,6 @@ namespace Rebus.SqlServerCe.Sagas
         readonly IDbConnectionProvider _connectionProvider;
         readonly TableName _dataTableName;
         readonly TableName _indexTableName;
-        bool _oldFormatDataTable;
 
         /// <summary>
         /// Constructs the saga storage, using the specified connection provider and tables for persistence.
@@ -64,8 +63,6 @@ namespace Rebus.SqlServerCe.Sagas
                 // if there is no data column at this point, it has probably just not been created yet
                 if (datacolumn == null) { return; }
 
-                // remember to use "old format" if the data column is NVarChar
-                _oldFormatDataTable = datacolumn.Type == SqlDbType.NVarChar || datacolumn.Type == SqlDbType.NText || datacolumn.Type == SqlDbType.Image;
             }
         }
 
@@ -370,24 +367,11 @@ UPDATE {_dataTableName.Name}
 
         void SetData(SqlCeCommand command, string data)
         {
-            if (_oldFormatDataTable)
-            {
-                command.Parameters.Add("data", SqlDbType.Image).Value = data;
-            }
-            else
-            {
-                command.Parameters.Add("data", SqlDbType.Image).Value = JsonTextEncoding.GetBytes(data);
-            }
+            command.Parameters.Add("data", SqlDbType.Image).Value = JsonTextEncoding.GetBytes(data);
         }
 
         string GetData(IDataReader reader)
         {
-            if (_oldFormatDataTable)
-            {
-                var data = (string)reader["data"];
-                return data;
-            }
-
             var bytes = (byte[])reader["data"];
             var value = JsonTextEncoding.GetString(bytes);
             return value;

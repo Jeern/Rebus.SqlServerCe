@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Rebus.Auditing.Sagas;
 using Rebus.Logging;
@@ -16,6 +17,7 @@ namespace Rebus.SqlServerCe.Sagas
     /// </summary>
     public class SqlServerCeSagaSnapshotStorage : ISagaSnapshotStorage
     {
+        static readonly Encoding TextEncoding = Encoding.UTF8;
         readonly IDbConnectionProvider _connectionProvider;
         readonly TableName _tableName;
         readonly ILog _log;
@@ -99,8 +101,8 @@ INSERT INTO {_tableName.Name} (
 ";
                     command.Parameters.Add("id", SqlDbType.UniqueIdentifier).Value = sagaData.Id;
                     command.Parameters.Add("revision", SqlDbType.Int).Value = sagaData.Revision;
-                    command.Parameters.Add("data", SqlDbType.Image).Value = DataSerializer.SerializeToString(sagaData);
-                    command.Parameters.Add("metadata", SqlDbType.Image).Value = MetadataSerializer.SerializeToString(sagaAuditMetadata);
+                    command.Parameters.Add("data", SqlDbType.Image).Value = TextEncoding.GetBytes(DataSerializer.SerializeToString(sagaData));
+                    command.Parameters.Add("metadata", SqlDbType.Image).Value = TextEncoding.GetBytes(MetadataSerializer.SerializeToString(sagaAuditMetadata));
 
                     await command.ExecuteNonQueryAsync();
                 }
