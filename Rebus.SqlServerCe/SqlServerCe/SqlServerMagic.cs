@@ -55,7 +55,7 @@ namespace Rebus.SqlServerCe
                     command.Transaction = transaction;
                 }
 
-                command.CommandText = $"SELECT [COLUMN_NAME] AS 'name', [DATA_TYPE] AS 'type' FROM [INFORMATION_SCHEMA].[COLUMNS] WHERE [TABLE_NAME] = '{tableName}'";
+                command.CommandText = $"SELECT [COLUMN_NAME] name, [DATA_TYPE] type FROM [INFORMATION_SCHEMA].[COLUMNS] WHERE [TABLE_NAME] = '{tableName}'";
 
                 using (var reader = command.ExecuteReader())
                 {
