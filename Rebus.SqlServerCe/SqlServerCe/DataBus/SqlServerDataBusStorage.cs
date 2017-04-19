@@ -182,7 +182,7 @@ namespace Rebus.SqlServerCe.DataBus
             using (var command = connection.CreateCommand())
             {
                 command.CommandText = $"UPDATE {_tableName.Name} SET [LastReadTime] = @now WHERE [Id] = @id";
-                command.Parameters.Add("now", SqlDbType.DateTime).Value = RebusTime.Now;
+                command.Parameters.Add("now", SqlDbType.DateTime).Value = RebusTime.Now.UtcDateTime;
                 command.Parameters.Add("id", SqlDbType.NVarChar, 200).Value = id;
                 await command.ExecuteNonQueryAsync();
             }
